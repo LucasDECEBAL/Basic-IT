@@ -52,6 +52,7 @@ export function BookingModal({ slot, onClose, onBooked }: BookingModalProps) {
   const [confirmed, setConfirmed] = useState<Booking | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const [apiError, setApiError] = useState<string | null>(null);
+  const [mailStatus, setMailStatus] = useState<"sent" | "skipped" | "failed" | null>(null);
   const panelRef = useRef<HTMLDivElement>(null);
   const closeRef = useRef<HTMLButtonElement>(null);
   const firstFieldRef = useRef<HTMLInputElement>(null);
@@ -156,6 +157,8 @@ export function BookingModal({ slot, onClose, onBooked }: BookingModalProps) {
       const data = (await response.json().catch(() => ({}))) as {
         booking?: Booking;
         error?: string;
+        emailSent?: boolean;
+        emailSkipped?: boolean;
       };
 
       if (!response.ok || !data.booking) {
@@ -167,6 +170,7 @@ export function BookingModal({ slot, onClose, onBooked }: BookingModalProps) {
       }
 
       setConfirmed(data.booking);
+      setMailStatus(data.emailSent ? "sent" : data.emailSkipped ? "skipped" : "failed");
       setSubmitting(false);
       void onBooked();
       requestAnimationFrame(() => closeRef.current?.focus());
@@ -273,8 +277,17 @@ export function BookingModal({ slot, onClose, onBooked }: BookingModalProps) {
 
             <p data-success className="mt-6 text-sm leading-relaxed text-muted">
               Présentez ce code à l&apos;accueil dix minutes avant la séance. La réservation est
-              enregistrée sur le serveur du studio. Démonstration : aucun paiement réel n&apos;a
-              été effectué et aucun email n&apos;est envoyé.
+              enregistrée sur le serveur du studio.
+              {mailStatus === "sent"
+                ? ` Un email de confirmation a été envoyé à ${confirmed.email}.`
+                : null}
+              {mailStatus === "skipped"
+                ? " L'envoi d'email n'est pas configuré sur ce serveur. La confirmation reste affichée ici."
+                : null}
+              {mailStatus === "failed"
+                ? " L'email de confirmation n'a pas pu être envoyé. La confirmation reste affichée ici."
+                : null}{" "}
+              Démonstration : aucun paiement réel n&apos;a été effectué.
             </p>
 
             <Link

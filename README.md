@@ -77,9 +77,46 @@ fichier si besoin.
 Ce montage suppose un serveur Node local avec un disque inscriptible. Il n'est pas
 adapté à un déploiement serverless.
 
+## Emails de confirmation
+
+Chaque réservation confirmée envoie un récapitulatif au client avec son code, la
+séance, le créneau, le coach, l'adresse et le montant. Si `STUDIO_EMAIL` est
+renseigné, le studio reçoit une copie avec les coordonnées du client.
+
+Copier `.env.example` en `.env.local` puis remplir les variables SMTP. Les valeurs
+ne sont jamais committées. Sans configuration SMTP, la réservation reste valable,
+l'API répond `emailSkipped: true` et l'interface indique que l'email n'est pas
+configuré.
+
+Variables :
+
+- `SMTP_HOST`, `SMTP_PORT`, `SMTP_SECURE` (`true` pour le port 465)
+- `SMTP_USER`, `SMTP_PASSWORD` si le serveur demande une authentification
+- `SMTP_FROM`, par exemple `"Basic IT <bonjour@basic-it.fr>"`
+- `STUDIO_EMAIL` pour la copie interne, optionnelle
+
+Pour tester sans vrai fournisseur, lancer Mailpit dans Docker :
+
+```bash
+docker run -d --rm -p 1025:1025 -p 8025:8025 axllent/mailpit
+```
+
+puis dans `.env.local` :
+
+```bash
+SMTP_HOST=127.0.0.1
+SMTP_PORT=1025
+SMTP_SECURE=false
+SMTP_FROM="Basic IT <bonjour@basic-it.fr>"
+```
+
+Les messages sont visibles sur [http://localhost:8025](http://localhost:8025). Redémarrer le serveur après toute modification de `.env.local`.
+Si le serveur SMTP est injoignable, la réservation n'échoue pas : l'erreur est
+journalisée et l'interface affiche que l'email n'a pas pu être envoyé.
+
 ## Démonstration, pas production
 
-- Le paiement est **simulé** : aucune carte n'est débitée, aucun email n'est envoyé.
+- Le paiement est **simulé** : aucune carte n'est débitée. Les emails partent via le SMTP configuré, ou sont ignorés si `SMTP_HOST` n'est pas renseigné.
 - L'espace `/admin` est une démonstration sans authentification et ne doit pas être
   exposé tel quel en production.
 - L'adresse, les horaires, les coachs, les certifications et les tarifs sont des
@@ -89,5 +126,5 @@ adapté à un déploiement serverless.
 
 Les photographies sont issues de [Pexels](https://www.pexels.com) et créditées dans
 le pied de page : Assomyron, Engin Akyurt, Ron Lach, Andres Ayrton, Dave Garcia,
-Tima Miroshnichenko et KoolShooters. Elles illustrent une salle de sport et ne
+Ahmet Kurt et KoolShooters. Elles illustrent une salle de sport et ne
 représentent pas le studio Basic IT.

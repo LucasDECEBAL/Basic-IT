@@ -6,6 +6,7 @@ import {
   listBookings,
 } from "@/lib/server/booking-store";
 import { NO_STORE_HEADERS, bookingErrorResponse } from "@/lib/server/http";
+import { sendBookingEmails } from "@/lib/server/mailer";
 
 
 export async function GET() {
@@ -58,7 +59,12 @@ export async function POST(request: Request) {
     }
 
     const booking = await createBooking({ dateIso, time, name, email, phone });
-    return NextResponse.json({ booking }, { status: 201, headers: NO_STORE_HEADERS });
+    const mail = await sendBookingEmails(booking);
+
+    return NextResponse.json(
+      { booking, emailSent: mail.sent, emailSkipped: mail.skipped },
+      { status: 201, headers: NO_STORE_HEADERS },
+    );
   } catch (error) {
     return bookingErrorResponse(error);
   }
