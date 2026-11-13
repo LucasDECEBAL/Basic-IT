@@ -1,0 +1,75 @@
+@import "tailwindcss";
+
+@theme {
+  --color-forest: #0b2b20;
+  --color-forest-deep: #071f16;
+  --color-forest-soft: #14402f;
+  --color-sage: #8ea89d;
+  --color-sage-soft: #c7d5cd;
+  --color-sage-ink: #4a6357;
+  --color-ecru: #f7f8f5;
+  --color-bone: #eeefe9;
+  --color-bone-deep: #e3e5dc;
+  --color-ink: #0f1f18;
+  --color-muted: #5b6a62;
+  --color-field: #d8dcd3;
+
+  --font-sans: var(--font-archivo), ui-sans-serif, system-ui, sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 6rem;
+}
+
+body {
+  background: var(--color-ecru);
+  color: var(--color-ink);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: var(--color-sage);
+  color: var(--color-forest-deep);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-sage);
+  outline-offset: 3px;
+}
+
+@keyframes modal-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.99);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes veil-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .modal-in {
+    animation: modal-in 320ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+  .veil-in {
+    animation: veil-in 220ms ease-out both;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
