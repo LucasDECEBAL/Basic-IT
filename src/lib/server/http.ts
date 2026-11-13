@@ -7,6 +7,13 @@ export const NO_STORE_HEADERS = {
   "Cache-Control": "no-store, max-age=0",
 };
 
+export function unauthorizedResponse() {
+  return NextResponse.json(
+    { error: "Non autorisé." },
+    { status: 401, headers: NO_STORE_HEADERS },
+  );
+}
+
 export function bookingErrorResponse(error: unknown) {
   if (error instanceof BookingStoreError) {
     return NextResponse.json(

@@ -1,5 +1,6 @@
 import { spawn, spawnSync } from "node:child_process";
 import { createRequire } from "node:module";
+import fs from "node:fs";
 import net from "node:net";
 
 const require = createRequire(import.meta.url);
@@ -15,6 +16,24 @@ const stripeEvents = [
 
 function log(message) {
   process.stdout.write(`[dev] ${message}\n`);
+}
+
+function readStripeKey() {
+  if (process.env.STRIPE_SECRET_KEY) {
+    return process.env.STRIPE_SECRET_KEY.trim();
+  }
+
+  try {
+    const env = fs.readFileSync(".env.local", "utf8");
+    const line = env
+      .split(/\r?\n/)
+      .find((entry) => entry.startsWith("STRIPE_SECRET_KEY="));
+    return (line?.slice("STRIPE_SECRET_KEY=".length) ?? "")
+      .trim()
+      .replace(/^["']|["']$/g, "");
+  } catch {
+    return "";
+  }
 }
 
 function isPortFree(port) {
@@ -83,7 +102,16 @@ if (stripeEnabled) {
     log("Stripe CLI absente, démarrage du serveur seul.");
     resolveSecret(null);
   } else {
+    const stripeKey = readStripeKey();
     log(`Stripe webhook -> http://localhost:${port}/api/stripe/webhook`);
+
+    if (!stripeKey) {
+      log("STRIPE_SECRET_KEY absente : la CLI utilise son compte connecté.");
+    } else if (!stripeKey.startsWith("sk_test_") && !stripeKey.startsWith("rk_test_")) {
+      log("La clé Stripe n'est pas une clé de test, la CLI n'est pas liée.");
+    } else {
+      log("CLI Stripe liée à la clé de test du projet.");
+    }
 
     stripe = spawn(
       "stripe",
@@ -94,7 +122,17 @@ if (stripeEnabled) {
         "--forward-to",
         `http://localhost:${port}/api/stripe/webhook`,
       ],
-      { stdio: ["ignore", "pipe", "pipe"] },
+      {
+        stdio: ["ignore", "pipe", "pipe"],
+        env: {
+          ...process.env,
+          ...(stripeKey &&
+          (stripeKey.startsWith("sk_test_") ||
+            stripeKey.startsWith("rk_test_"))
+            ? { STRIPE_API_KEY: stripeKey }
+            : {}),
+        },
+      },
     );
 
     let output = "";

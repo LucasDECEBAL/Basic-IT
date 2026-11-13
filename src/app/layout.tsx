@@ -35,7 +35,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="fr" className={archivo.variable}>
+    <html lang="fr" className={archivo.variable} data-scroll-behavior="smooth">
       <body className="font-sans">
         <a
           href="#contenu"

@@ -419,9 +419,18 @@ export async function createBooking(input: CreateBookingInput): Promise<Booking>
 export async function deleteBooking(id: string): Promise<boolean> {
   return withStoreLock(async () => {
     const store = await readStore();
-    const before = store.bookings.length;
-    store.bookings = store.bookings.filter((booking) => booking.id !== id);
-    if (store.bookings.length === before) return false;
+    const booking = store.bookings.find((item) => item.id === id);
+    if (!booking) return false;
+
+    if (booking.status === "pending") {
+      throw new BookingStoreError(
+        "Cette réservation attend un paiement. Elle se libérera automatiquement.",
+        "INVALID",
+        409,
+      );
+    }
+
+    store.bookings = store.bookings.filter((item) => item.id !== id);
     await writeStore(store);
     return true;
   });
@@ -430,7 +439,203 @@ export async function deleteBooking(id: string): Promise<boolean> {
 export async function clearBookings(): Promise<void> {
   await withStoreLock(async () => {
     const store = await readStore();
+    if (store.bookings.some((booking) => booking.status === "pending")) {
+      throw new BookingStoreError(
+        "Des paiements sont en attente. Attendez leur confirmation ou leur expiration.",
+        "INVALID",
+        409,
+      );
+    }
     store.bookings = [];
     await writeStore(store);
+  });
+}
+
+export async function getAvailabilityCounts(): Promise<Record<string, number>> {
+  return withStoreLock(async () => {
+    const store = await readStore();
+    if (sweep(store)) {
+      await writeStore(store);
+    }
+
+    const counts: Record<string, number> = {};
+    for (const booking of store.bookings) {
+      if (!isActiveBooking(booking)) continue;
+      counts[booking.slotId] = (counts[booking.slotId] ?? 0) + 1;
+    }
+    return counts;
+  });
+}
+
+export async function getBookingById(id: string): Promise<Booking | null> {
+  return withStoreLock(async () => {
+    const store = await readStore();
+    if (sweep(store)) {
+      await writeStore(store);
+    }
+    return store.bookings.find((booking) => booking.id === id) ?? null;
+  });
+}
+
+export async function createPendingBooking(
+  input: CreateBookingInput,
+  holdMinutes = 31,
+): Promise<Booking> {
+  const slot = resolveSlot(input.dateIso, input.time);
+  const contact = validateContact(input);
+
+  return withStoreLock(async () => {
+    const store = await readStore();
+    const now = Date.now();
+    const nowIso = new Date(now).toISOString();
+
+    if (sweep(store, now)) {
+      await writeStore(store);
+    }
+
+    const activeForSlot = store.bookings.filter(
+      (booking) => booking.slotId === slot.slotId && isActiveBooking(booking),
+    );
+    const baseline = demoBooked(slot.dateIso, slot.slotIndex);
+
+    if (baseline + activeForSlot.length >= CAPACITY) {
+      throw new BookingStoreError("Ce créneau est complet.", "SLOT_FULL", 409);
+    }
+
+    const booking: Booking = {
+      id: randomUUID(),
+      code: makeCode(new Set(store.bookings.map((item) => item.code))),
+      slotId: slot.slotId,
+      dateIso: slot.dateIso,
+      dateLong: slot.dateLong,
+      time: slot.time,
+      format: slot.format,
+      course: slot.course,
+      coach: slot.coach,
+      duration: slot.duration,
+      price: PRICE,
+      name: contact.name,
+      email: contact.email,
+      phone: contact.phone,
+      status: "pending",
+      createdAt: nowIso,
+      updatedAt: nowIso,
+      expiresAt: new Date(now + holdMinutes * 60 * 1000).toISOString(),
+      stripeSessionId: null,
+      stripePaymentIntentId: null,
+    };
+
+    store.bookings.push(booking);
+    await writeStore(store);
+    return booking;
+  });
+}
+
+export async function attachStripeSession(
+  bookingId: string,
+  sessionId: string,
+): Promise<Booking | null> {
+  return withStoreLock(async () => {
+    const store = await readStore();
+    const booking = store.bookings.find(
+      (item) => item.id === bookingId && item.status === "pending",
+    );
+    if (!booking) return null;
+
+    booking.stripeSessionId = sessionId;
+    booking.updatedAt = new Date().toISOString();
+    await writeStore(store);
+    return booking;
+  });
+}
+
+export async function cancelPendingBooking(bookingId: string): Promise<void> {
+  await withStoreLock(async () => {
+    const store = await readStore();
+    const before = store.bookings.length;
+    store.bookings = store.bookings.filter(
+      (booking) => !(booking.id === bookingId && booking.status === "pending"),
+    );
+    if (store.bookings.length !== before) {
+      await writeStore(store);
+    }
+  });
+}
+
+export type ConfirmBookingResult = {
+  booking: Booking | null;
+  newlyConfirmed: boolean;
+};
+
+export async function confirmBookingBySession(
+  sessionId: string,
+  paymentIntentId: string | null,
+  bookingId?: string,
+): Promise<ConfirmBookingResult> {
+  return withStoreLock(async () => {
+    const store = await readStore();
+    const now = Date.now();
+
+    if (sweep(store, now)) {
+      await writeStore(store);
+    }
+
+    const booking = store.bookings.find(
+      (item) =>
+        (bookingId && item.id === bookingId) ||
+        (item.stripeSessionId && item.stripeSessionId === sessionId),
+    );
+
+    if (!booking) {
+      return { booking: null, newlyConfirmed: false };
+    }
+
+    if (booking.status === "confirmed") {
+      return { booking, newlyConfirmed: false };
+    }
+
+    if (booking.status !== "pending") {
+      const slotIndex = Number(booking.slotId.split("-").pop() ?? "0");
+      const activeForSlot = store.bookings.filter(
+        (item) => item.slotId === booking.slotId && isActiveBooking(item),
+      );
+      const baseline = demoBooked(booking.dateIso, slotIndex);
+      if (baseline + activeForSlot.length >= CAPACITY) {
+        return { booking, newlyConfirmed: false };
+      }
+    }
+
+    booking.status = "confirmed";
+    booking.expiresAt = null;
+    booking.stripeSessionId = sessionId || booking.stripeSessionId;
+    booking.stripePaymentIntentId = paymentIntentId;
+    booking.updatedAt = new Date(now).toISOString();
+    await writeStore(store);
+
+    return { booking, newlyConfirmed: true };
+  });
+}
+
+export async function expireBookingBySession(
+  sessionId: string,
+  bookingId?: string,
+): Promise<Booking | null> {
+  return withStoreLock(async () => {
+    const store = await readStore();
+    const booking = store.bookings.find(
+      (item) =>
+        (bookingId && item.id === bookingId) ||
+        (item.stripeSessionId && item.stripeSessionId === sessionId),
+    );
+
+    if (!booking) return null;
+
+    if (booking.status === "pending") {
+      booking.status = "expired";
+      booking.updatedAt = new Date().toISOString();
+      await writeStore(store);
+    }
+
+    return booking;
   });
 }

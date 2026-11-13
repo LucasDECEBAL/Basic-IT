@@ -7,7 +7,7 @@ import type { Booking } from "@/lib/bookings";
 import { gsap, useGSAP } from "@/lib/gsap";
 import { prefersReducedMotion } from "@/lib/motion";
 import { FILTERS, FORMATS, type FormatKey } from "@/lib/sessions";
-import { useBookings } from "@/lib/useBookings";
+import { useAdminBookings } from "@/lib/useAdminBookings";
 
 const money = new Intl.NumberFormat("fr-FR", {
   style: "currency",
@@ -23,18 +23,12 @@ function shortDate(iso: string) {
     .replace(".", "");
 }
 
-function compactDate(iso: string) {
-  const date = new Date(`${iso}T12:00:00`);
-  if (Number.isNaN(date.getTime())) return iso;
-  return date.toLocaleDateString("fr-FR", { day: "numeric", month: "short" });
-}
-
 function formatOf(booking: Booking) {
   return FORMATS[booking.format]?.short ?? booking.format;
 }
 
 export function AdminDashboard() {
-  const { bookings, status, error, refresh } = useBookings();
+  const { data: bookings, status, error, refresh } = useAdminBookings();
   const [query, setQuery] = useState("");
   const [format, setFormat] = useState<"tous" | FormatKey>("tous");
   const [confirmClear, setConfirmClear] = useState(false);
@@ -62,14 +56,10 @@ export function AdminDashboard() {
     });
   }, [sorted, query, format]);
 
-  const revenue = bookings.reduce((total, booking) => total + booking.price, 0);
-  const sessionCount = new Set(bookings.map((booking) => booking.slotId)).size;
-
-  const firstSession = useMemo(() => {
-    return [...bookings].sort((a, b) =>
-      `${a.dateIso}T${a.time}`.localeCompare(`${b.dateIso}T${b.time}`),
-    )[0];
-  }, [bookings]);
+  const confirmed = bookings.filter((booking) => booking.status === "confirmed");
+  const pending = bookings.filter((booking) => booking.status === "pending");
+  const revenue = confirmed.reduce((total, booking) => total + booking.price, 0);
+  const hasPending = pending.length > 0;
 
   const initialLoading = status === "loading" && bookings.length === 0;
 
@@ -77,7 +67,7 @@ export function AdminDashboard() {
     setActionError(null);
     setDeletingId(id);
     try {
-      const response = await fetch(`/api/bookings/${encodeURIComponent(id)}`, {
+      const response = await fetch(`/api/admin/bookings/${encodeURIComponent(id)}`, {
         method: "DELETE",
       });
       if (!response.ok) throw new Error(`HTTP ${response.status}`);
@@ -93,7 +83,7 @@ export function AdminDashboard() {
     setActionError(null);
     setClearing(true);
     try {
-      const response = await fetch("/api/bookings", { method: "DELETE" });
+      const response = await fetch("/api/admin/bookings", { method: "DELETE" });
       if (!response.ok) throw new Error(`HTTP ${response.status}`);
       setConfirmClear(false);
       await refresh();
@@ -151,7 +141,7 @@ export function AdminDashboard() {
                 <button
                   type="button"
                   onClick={() => void handleClear()}
-                  disabled={clearing}
+                  disabled={clearing || hasPending}
                   className="rounded-full bg-bone-deep px-4 py-2.5 font-medium text-forest transition-colors hover:bg-bone disabled:cursor-not-allowed disabled:opacity-60"
                 >
                   {clearing ? "Effacement…" : "Confirmer"}
@@ -168,7 +158,13 @@ export function AdminDashboard() {
               <button
                 type="button"
                 onClick={() => setConfirmClear(true)}
-                className="rounded-full px-4 py-2.5 text-sm text-muted transition-colors hover:bg-bone hover:text-forest"
+                disabled={hasPending}
+                title={
+                  hasPending
+                    ? "Des paiements sont en attente. Attendez leur confirmation ou leur expiration."
+                    : undefined
+                }
+                className="rounded-full px-4 py-2.5 text-sm text-muted transition-colors hover:bg-bone hover:text-forest disabled:cursor-not-allowed disabled:opacity-50"
               >
                 Tout effacer
               </button>
@@ -193,24 +189,20 @@ export function AdminDashboard() {
             value: initialLoading ? "—" : String(bookings.length),
           },
           {
-            label: "Séances concernées",
-            value: initialLoading ? "—" : String(sessionCount),
+            label: "Confirmées",
+            value: initialLoading ? "—" : String(confirmed.length),
           },
-          { label: "Revenu", value: initialLoading ? "—" : money.format(revenue) },
           {
-            label: "Première séance",
-            value: initialLoading
-              ? "—"
-              : firstSession
-                ? `${compactDate(firstSession.dateIso)} · ${firstSession.time}`
-                : "Aucune",
+            label: "En attente",
+            value: initialLoading ? "—" : String(pending.length),
           },
+          { label: "Revenu confirmé", value: initialLoading ? "—" : money.format(revenue) },
         ].map((stat) => (
           <div key={stat.label} data-admin-kpi>
             <p className="text-[13px] text-muted">{stat.label}</p>
             <p
               className={`mt-2 font-medium tracking-[-0.02em] text-forest ${
-                stat.label === "Première séance" ? "text-lg" : "text-[32px] tabular-nums"
+                "text-[32px] tabular-nums"
               }`}
             >
               {stat.value}
@@ -258,13 +250,22 @@ export function AdminDashboard() {
       {error || actionError ? (
         <div className="mt-4 flex flex-wrap items-center justify-between gap-3 rounded-xl bg-[#f6e9e6] px-4 py-3 text-sm text-[#8f3a2a]">
           <span>{actionError ?? error}</span>
-          <button
-            type="button"
-            onClick={() => void refresh()}
-            className="rounded-full bg-white px-3 py-1.5 text-[13px] font-medium text-[#8f3a2a]"
-          >
-            Réessayer
-          </button>
+          {error?.includes("Session expirée") ? (
+            <Link
+              href="/admin/login"
+              className="rounded-full bg-white px-3 py-1.5 text-[13px] font-medium text-[#8f3a2a]"
+            >
+              Se reconnecter
+            </Link>
+          ) : (
+            <button
+              type="button"
+              onClick={() => void refresh()}
+              className="rounded-full bg-white px-3 py-1.5 text-[13px] font-medium text-[#8f3a2a]"
+            >
+              Réessayer
+            </button>
+          )}
         </div>
       ) : null}
 
@@ -352,7 +353,16 @@ export function AdminDashboard() {
                     className="border-t border-bone align-middle"
                   >
                     <td className="px-6 py-4 text-[13px] font-medium tabular-nums text-sage-ink">
-                      {booking.code}
+                      <p>{booking.code}</p>
+                      <span
+                        className={`mt-1 inline-flex rounded-full px-2 py-0.5 text-[12px] ${
+                          booking.status === "pending"
+                            ? "bg-bone-deep text-forest"
+                            : "bg-sage/20 text-forest"
+                        }`}
+                      >
+                        {booking.status === "pending" ? "En attente" : "Confirmée"}
+                      </span>
                     </td>
                     <td className="px-4 py-4">
                       <p className="text-sm font-medium text-forest">{booking.name}</p>
@@ -396,16 +406,32 @@ export function AdminDashboard() {
                 >
                   <div className="flex items-start justify-between gap-4">
                     <div>
-                      <p className="text-[13px] font-medium tabular-nums text-sage-ink">
-                        {booking.code}
-                      </p>
+                      <div className="flex items-center gap-2">
+                        <p className="text-[13px] font-medium tabular-nums text-sage-ink">
+                          {booking.code}
+                        </p>
+                        <span
+                          className={`inline-flex rounded-full px-2 py-0.5 text-[12px] ${
+                            booking.status === "pending"
+                              ? "bg-bone-deep text-forest"
+                              : "bg-sage/20 text-forest"
+                          }`}
+                        >
+                          {booking.status === "pending" ? "En attente" : "Confirmée"}
+                        </span>
+                      </div>
                       <p className="mt-1 text-base font-medium text-forest">{booking.name}</p>
                       <p className="text-[13px] text-muted">{booking.email}</p>
                     </div>
                     <button
                       type="button"
                       onClick={() => void handleDelete(booking.id)}
-                      disabled={deletingId === booking.id}
+                      disabled={deletingId === booking.id || booking.status === "pending"}
+                      title={
+                        booking.status === "pending"
+                          ? "Cette réservation attend un paiement."
+                          : undefined
+                      }
                       aria-label={`Supprimer la réservation ${booking.code}`}
                       className="inline-flex size-9 shrink-0 items-center justify-center rounded-full text-muted transition-colors hover:bg-bone hover:text-[#a4442f] disabled:cursor-not-allowed disabled:opacity-50"
                     >
@@ -437,7 +463,8 @@ export function AdminDashboard() {
 
       <p className="mt-6 text-[13px] leading-relaxed text-muted">
         Réservations stockées dans le fichier JSON du serveur, partagées entre les appareils.
-        Espace de démonstration sans authentification, à ne pas exposer tel quel en production.
+        Espace admin protégé par mot de passe. Démonstration locale, pas un back-office de
+        production.
       </p>
     </div>
   );

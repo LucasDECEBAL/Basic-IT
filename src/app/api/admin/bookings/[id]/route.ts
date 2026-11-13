@@ -1,12 +1,18 @@
 import { NextResponse } from "next/server";
+import { isAdminRequest } from "@/lib/server/admin-auth";
 import { deleteBooking, listBookings } from "@/lib/server/booking-store";
-import { NO_STORE_HEADERS, bookingErrorResponse } from "@/lib/server/http";
-
+import {
+  NO_STORE_HEADERS,
+  bookingErrorResponse,
+  unauthorizedResponse,
+} from "@/lib/server/http";
 
 export async function DELETE(
   _request: Request,
   { params }: { params: Promise<{ id: string }> },
 ) {
+  if (!(await isAdminRequest())) return unauthorizedResponse();
+
   try {
     const { id } = await params;
     const removed = await deleteBooking(id);
