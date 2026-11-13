@@ -98,6 +98,25 @@ Hypothèses à valider en semaine 1 par les entretiens clients :
 
 ## 9. Gouvernance
 
+### Méthode : agile, en 3 lots de 4 semaines
+
+| Question | Réponse |
+|---|---|
+| Le besoin est-il clair dès le début ? | En partie : le problème est chiffré, les détails ne le sont pas |
+| Le besoin va-t-il changer ? | Oui, à chaque démonstration |
+| Le client veut-il voir avant la fin ? | Oui : vitrine testable en S6, réservation en S9 |
+
+**Deux raisons de choisir l'agile plutôt que la cascade :**
+
+1. **Le besoin va bouger.** On ne connaît pas tout le détail en janvier. Chaque lot s'ajuste, sans tout casser.
+2. **Le client veut voir vite.** Vitrine en semaine 6, réservation en semaine 9 : on valide avant la fin, pas après.
+
+Le budget (20 000 €) et la date (26 mars) restent **fixes** : c'est un agile cadré, pas un prétexte pour dériver. Seuls l'ordre et le détail des fonctionnalités bougent.
+
+**Suivi des tâches** : [trello.com/b/Msx4peLi/basic-it](https://trello.com/b/Msx4peLi/basic-it) — tableau partagé avec la direction, source de vérité pour l'avancement.
+
+### Rituels
+
 | Rituel | Fréquence | Participants | Sortie |
 |---|---|---|---|
 | Point d'équipe | Lundi 9h, 30 min | Les 4 | Avancement, blocages, priorités de la semaine |

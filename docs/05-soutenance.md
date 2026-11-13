@@ -8,14 +8,15 @@
 | 1:00 – 3:30 | Chef de projet | Basic IT, 20 salariés, aucun site, coût du problème | Slides 2-3 | 2 400 clients/an, 52 000 € de CA manqué |
 | 3:30 – 6:00 | Designer | Parcours client en 4 écrans + maquettes | Slides 4-6 | Réserver en 3 clics, 24h/24 |
 | 6:00 – 8:30 | Dev front | Démo du site | Slides 7-8 | « Je viens de réserver un cours en 40 secondes. » |
-| 8:30 – 10:30 | Chef de projet | Budget 20 000 € + planning + 5 jalons | Slides 9-10 | Tout tient, avec 10 % de marge |
-| 10:30 – 12:00 | Dev back | Risques et sécurité / RGPD | Slide 11 | Aucune donnée bancaire stockée chez nous |
-| 12:00 – 13:30 | Designer | KPI attendus à 3 mois | Slide 12 | 50 réservations/semaine, −50 % d'appels |
-| 13:30 – 15:00 | Chef de projet | Conclusion + ouverture aux questions | Slide 13 | « Ce site n'est pas une dépense : c'est 30 clients par semaine. » |
+| 8:30 – 10:00 | Chef de projet | Budget 20 000 € + planning + 5 jalons | Slides 9-10 | Tout tient, avec 10 % de marge |
+| 10:00 – 11:00 | Chef de projet | Méthode agile, 3 lots, suivi Trello | Slide 11 | Le besoin bouge, le client voit tôt |
+| 11:00 – 12:15 | Dev back | Risques et sécurité / RGPD | Slide 12 | Aucune donnée bancaire stockée chez nous |
+| 12:15 – 13:30 | Designer | KPI attendus à 3 mois | Slide 13 | 50 réservations/semaine, −50 % d'appels |
+| 13:30 – 15:00 | Chef de projet | Conclusion + ouverture aux questions | Slide 14 | « Ce site n'est pas une dépense : c'est 30 clients par semaine. » |
 
 > Si les questions sont **comprises** dans les 15 minutes : réduire la démo à 1 min 30 et garder 2 minutes de marge.
 
-## Trame de slides (13 slides)
+## Trame de slides (14 slides)
 
 1. Titre — Basic IT, le site web de la salle
 2. Le pitch en une phrase
@@ -27,9 +28,10 @@
 8. Le back-office pour les 20 salariés
 9. Budget 20 000 €
 10. Planning 12 semaines et 5 jalons
-11. Risques et RGPD
-12. KPI à 3 mois
-13. Conclusion
+11. Méthode agile et suivi Trello
+12. Risques et RGPD
+13. KPI à 3 mois
+14. Conclusion
 
 ## Script oral — 30 secondes
 
@@ -39,10 +41,10 @@
 
 | Personne | Temps | Rôle à l'oral |
 |---|---|---|
-| Chef de projet | 5 min 30 | Introduit, chiffre, conclut |
-| Designer | 3 min 30 | Montre le parcours et les KPI |
+| Chef de projet | 7 min 30 | Introduit, chiffre, conclut |
+| Designer | 3 min 45 | Montre le parcours et les KPI |
 | Dev front | 2 min 30 | Démontre, jamais de jargon |
-| Dev back | 1 min 30 | Rassure sur la sécurité |
+| Dev back | 1 min 15 | Rassure sur la sécurité |
 
 Le chef de projet ne parle jamais plus de 2 minutes d'affilée : il distribue la parole.
 

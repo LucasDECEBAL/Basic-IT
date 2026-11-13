@@ -545,3 +545,31 @@
     animation: none;
   }
 }
+
+/* --- lien de suivi (Trello) --- */
+
+.reveal .trello {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.45em;
+  margin: 1em 0 0;
+  padding: 0.5em 0.95em;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--panel);
+  font-size: 0.5em;
+  color: var(--muted);
+  letter-spacing: 0.01em;
+}
+
+.reveal .trello a {
+  color: var(--forest);
+  font-weight: 600;
+  text-decoration: none;
+  border-bottom: 1px solid var(--sage);
+  padding-bottom: 1px;
+}
+
+.reveal .trello a:hover {
+  border-bottom-color: var(--forest);
+}

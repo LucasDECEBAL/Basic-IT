@@ -63,7 +63,7 @@ Le script nécessite PowerPoint installé. Il supprime les animations existantes
 
 ## Contenu
 
-13 slides, alignées sur `docs/05-soutenance.md` :
+14 slides, alignées sur `docs/05-soutenance.md` :
 
 | Slide | Sujet | Temps |
 |---|---|---|
@@ -77,15 +77,16 @@ Le script nécessite PowerPoint installé. Il supprime les animations existantes
 | 8 | Back-office | — |
 | 9 | Budget | 2 min |
 | 10 | Planning | — |
-| 11 | Risques | 1 min 30 |
-| 12 | KPI | 1 min 30 |
-| 13 | Conclusion | 1 min 30 |
+| 11 | Méthode agile et suivi Trello | 1 min |
+| 12 | Risques | 1 min 30 |
+| 13 | KPI | 1 min 30 |
+| 14 | Conclusion | 1 min 30 |
 
 Chaque slide contient des **notes de présentateur** (touche `S`) avec le script et les réponses aux questions probables.
 
 ## Aperçus
 
-Captures des 13 slides, générées en 1280×720 dans `apercus/`.
+Captures des 14 slides, générées en 1280×720 dans `apercus/`.
 
 | # | Sujet | Fichier |
 |---|---|---|
@@ -99,15 +100,16 @@ Captures des 13 slides, générées en 1280×720 dans `apercus/`.
 | 8 | Back-office | [`slide-08.png`](apercus/slide-08.png) |
 | 9 | Budget | [`slide-09.png`](apercus/slide-09.png) |
 | 10 | Planning | [`slide-10.png`](apercus/slide-10.png) |
-| 11 | Risques | [`slide-11.png`](apercus/slide-11.png) |
-| 12 | KPI | [`slide-12.png`](apercus/slide-12.png) |
-| 13 | Conclusion | [`slide-13.png`](apercus/slide-13.png) |
+| 11 | Méthode agile | [`slide-11.png`](apercus/slide-11.png) |
+| 12 | Risques | [`slide-12.png`](apercus/slide-12.png) |
+| 13 | KPI | [`slide-13.png`](apercus/slide-13.png) |
+| 14 | Conclusion | [`slide-14.png`](apercus/slide-14.png) |
 
 Régénération (Chrome installé) :
 
 ```powershell
 $base = "file:///C:/Users/lucas/Desktop/Basic%20IT/Basic-IT/docs/soutenance/index.html"
-0..12 | ForEach-Object {
+0..13 | ForEach-Object {
   $n = "{0:D2}" -f ($_ + 1)
   & "C:\Program Files\Google\Chrome\Application\chrome.exe" `
     --headless=new --disable-gpu --hide-scrollbars --window-size=1280,720 `
