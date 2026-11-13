@@ -30,7 +30,7 @@
     </section>
 
     <!-- 2 -->
-    <section>
+    <section class="dark" data-state="dark" data-background-color="#0b2b20">
       <p class="eyebrow">Le projet en une phrase</p>
       <blockquote class="pitch">
         « Pour les sportifs qui ne pouvaient réserver qu'au téléphone,
@@ -44,6 +44,44 @@
     </section>
 
     <!-- 3 -->
+    <section>
+      <p class="eyebrow">Cadrage</p>
+      <h2>Le projet en six questions.</h2>
+      <div class="grid-3 qqoqcp">
+        <div class="card">
+          <h3>Quoi ?</h3>
+          <p>Le site web de Basic IT : vitrine, réservation, paiement et back-office.</p>
+        </div>
+        <div class="card">
+          <h3>Qui ?</h3>
+          <p>4 personnes en interne, pour 20 salariés et les clients de la salle.</p>
+        </div>
+        <div class="card">
+          <h3>Où ?</h3>
+          <p>En ligne, sur basicit.fr. Projet mené au studio, Paris 11e.</p>
+        </div>
+        <div class="card">
+          <h3>Quand ?</h3>
+          <p>Du 4 janvier au 26 mars 2027, 12 semaines. En ligne le 21 mars.</p>
+        </div>
+        <div class="card">
+          <h3>Comment ?</h3>
+          <p>Agile, 3 lots de 4 semaines, suivi Trello, budget 20 000 €.</p>
+        </div>
+        <div class="card">
+          <h3>Pourquoi ?</h3>
+          <p>50 clients perdus par semaine, 52 000 € de chiffre d'affaires manqué par an.</p>
+        </div>
+      </div>
+      <p class="meta">Le « Combien ? » — 20 000 € de budget, détaillé plus loin.</p>
+      <aside class="notes">
+        Le QQQQCP sert à poser le cadre en 30 secondes. Ne pas lire les six cartes :
+        insister sur le Pourquoi (le chiffre) et le Quand (la date).
+        Si on demande « et le Combien ? », répondre : 20 000 €, c'est le budget, présenté plus tard.
+      </aside>
+    </section>
+
+    <!-- 4 -->
     <section>
       <p class="eyebrow">Le problème</p>
       <h2>Nous n'avons aucun site web.</h2>
@@ -113,7 +151,7 @@
         <div class="card">
           <span class="num">03</span>
           <h3>Paiement et back-office</h3>
-          <p>Paiement sécurisé par Stripe, planning géré par les 20 salariés.</p>
+          <p>Paiement par Stripe, en mode test : carte 4242, aucun débit réel. Planning géré par les 20 salariés.</p>
         </div>
       </div>
       <aside class="notes">
@@ -137,7 +175,7 @@
         </div>
         <div class="step">
           <b>3. Je paie</b>
-          <p>Carte bancaire via Stripe, sur une page sécurisée.</p>
+          <p>Stripe en mode test : carte 4242 4242 4242 4242, aucun débit réel.</p>
         </div>
         <div class="step">
           <b>4. Je reçois</b>
@@ -154,15 +192,21 @@
     <section>
       <p class="eyebrow">Démonstration</p>
       <h2>Le site, en direct.</h2>
-      <ul class="tight" style="margin-top:.4em">
-        <li>Accueil et planning → je choisis un cours</li>
-        <li>Réservation → je confirme un créneau</li>
-        <li>Back-office → le créneau passe de 11 à 10 places</li>
-      </ul>
-      <p class="meta">Si le direct échoue : maquette cliquable + captures dans l'annexe.</p>
+      <div class="shots">
+        <figure class="shot">
+          <img src="captures-site/accueil.png" alt="Page d'accueil du site Basic IT">
+          <figcaption>Accueil, planning et tarifs</figcaption>
+        </figure>
+        <figure class="shot">
+          <img src="captures-site/paiement-stripe.png" alt="Formulaire de réservation avec paiement Stripe en mode test">
+          <figcaption>Réservation et paiement Stripe — mode test, aucun débit</figcaption>
+        </figure>
+      </div>
+      <p class="meta">Si le direct échoue : ces captures sont dans l'annexe.</p>
       <aside class="notes">
-        Préparer un onglet ouvert d'avance, créneau de test réservé, capture d'écran en secours.
-        Parler pendant la démo : « je viens de réserver en 40 secondes, sans appeler ».
+        Montrer l'accueil, puis le module : je choisis un créneau, je saisis mes coordonnées,
+        je pars sur Stripe. Le paiement est en mode test : la carte 4242 n'est jamais débitée.
+        Si le direct échoue, on s'appuie sur ces deux captures.
       </aside>
     </section>
 
@@ -244,6 +288,32 @@
 
     <!-- 11 -->
     <section>
+      <p class="eyebrow">Méthode</p>
+      <h2>Agile, en 3 lots de 4 semaines.</h2>
+      <div class="grid-2" style="margin-top:.45em">
+        <div class="card">
+          <h3>Le besoin va bouger</h3>
+          <p>On ne connaît pas tout le détail en janvier. Chaque lot s'ajuste, sans tout casser.</p>
+        </div>
+        <div class="card">
+          <h3>Le client veut voir vite</h3>
+          <p>Vitrine testable en semaine 6, réservation en semaine 9. On valide avant la fin.</p>
+        </div>
+      </div>
+      <p class="trello">
+        Suivi en direct →
+        <a href="https://trello.com/b/Msx4peLi/basic-it" target="_blank" rel="noopener">trello.com/b/Msx4peLi</a>
+      </p>
+      <aside class="notes">
+        Deux raisons courtes : le besoin va bouger, le client veut voir vite.
+        Budget et date restent fixes : c'est un agile cadre, pas un prétexte pour dériver.
+        Si on demande « vrai Scrum ? » : non, un Scrum allégé, 4 personnes, 12 semaines.
+        Le tableau Trello est le suivi officiel des tâches, partagé avec la direction.
+      </aside>
+    </section>
+
+    <!-- 12 -->
+    <section>
       <p class="eyebrow">Risques</p>
       <h2>Ce qui peut nous faire échouer.</h2>
       <div class="grid-2" style="margin-top:.4em">
@@ -270,7 +340,7 @@
       </aside>
     </section>
 
-    <!-- 12 -->
+    <!-- 13 -->
     <section>
       <p class="eyebrow">Résultats attendus — 3 mois après la mise en ligne</p>
       <div class="grid-3" style="margin-top:.5em">
@@ -294,10 +364,10 @@
       </aside>
     </section>
 
-    <!-- 13 -->
-    <section class="fin">
+    <!-- 14 -->
+    <section class="fin dark" data-state="dark" data-background-color="#0b2b20">
       <p class="eyebrow">Conclusion</p>
-      <h2>Ce site n'est pas une dépense :<br>c'est <span style="color:var(--volt)">30 clients par semaine</span>.</h2>
+      <h2>Ce site n'est pas une dépense :<br>c'est <span style="color:var(--sage-soft)">30 clients par semaine</span>.</h2>
       <p class="lead">Merci — nous répondons à vos questions.</p>
       <aside class="notes">
         Terminer par la date et le budget : « 20 000 €, 12 semaines, livré le 26 mars. »
@@ -338,7 +408,7 @@
     setInterval(function () {
       var s = Math.floor((Date.now() - start) / 1000);
       el.textContent = pad(Math.floor(s / 60)) + ':' + pad(s % 60);
-      el.style.color = s > LIMIT ? 'rgba(255,92,56,.9)' : 'rgba(139,150,168,.65)';
+      el.style.color = s > LIMIT ? '#c96f5a' : '#8ea89d';
     }, 1000);
 
     document.addEventListener('keydown', function (e) {

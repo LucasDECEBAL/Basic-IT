@@ -5,12 +5,12 @@ node_modules/
 
 # Next.js
 .next/
-out/
 next-env.d.ts
 
-# Build
-dist/
-build/
+# Build (à la racine du dépôt uniquement : reveal.js a son propre dist/)
+/out/
+/dist/
+/build/
 *.tsbuildinfo
 
 # Variables d'environnement
@@ -34,3 +34,6 @@ Thumbs.db
 .idea/
 .vscode/*
 !.vscode/extensions.json
+
+# Fichiers verrou Office (PowerPoint, Word, Excel)
+~$*

@@ -40,6 +40,18 @@ Hypothèses à valider en semaine 1 par les entretiens clients :
 
 > « Pour les sportifs qui ne pouvaient réserver qu'au téléphone, Basic IT est le site de réservation en ligne qui capte 50 clients par semaine, contrairement au standard saturé. »
 
+### Le projet en six questions (QQQQCP)
+
+| Question | Réponse |
+|---|---|
+| **Quoi ?** | Le site web de Basic IT : vitrine, réservation, paiement Stripe (mode test) et back-office. |
+| **Qui ?** | 4 personnes en interne, pour 20 salariés et les clients de la salle. |
+| **Où ?** | En ligne, sur `basicit.fr`. Projet mené au studio, Paris 11e. |
+| **Quand ?** | Du 4 janvier au 26 mars 2027, 12 semaines. Mise en ligne le 21 mars. |
+| **Comment ?** | Agile, 3 lots de 4 semaines, suivi Trello, budget 20 000 €. |
+| **Pourquoi ?** | 50 clients perdus par semaine faute de réservation en ligne, soit 52 000 € de CA manqué par an. |
+| **Combien ?** | 20 000 € de budget, 30 jours-homme, marge de 10 % incluse. |
+
 ## 5. Objectifs
 
 | Objectif | Indicateur | Cible | Échéance |
@@ -97,6 +109,25 @@ Hypothèses à valider en semaine 1 par les entretiens clients :
 **Total : 30 jours-homme** valorisés à 300 €/jour.
 
 ## 9. Gouvernance
+
+### Méthode : agile, en 3 lots de 4 semaines
+
+| Question | Réponse |
+|---|---|
+| Le besoin est-il clair dès le début ? | En partie : le problème est chiffré, les détails ne le sont pas |
+| Le besoin va-t-il changer ? | Oui, à chaque démonstration |
+| Le client veut-il voir avant la fin ? | Oui : vitrine testable en S6, réservation en S9 |
+
+**Deux raisons de choisir l'agile plutôt que la cascade :**
+
+1. **Le besoin va bouger.** On ne connaît pas tout le détail en janvier. Chaque lot s'ajuste, sans tout casser.
+2. **Le client veut voir vite.** Vitrine en semaine 6, réservation en semaine 9 : on valide avant la fin, pas après.
+
+Le budget (20 000 €) et la date (26 mars) restent **fixes** : c'est un agile cadré, pas un prétexte pour dériver. Seuls l'ordre et le détail des fonctionnalités bougent.
+
+**Suivi des tâches** : [trello.com/b/Msx4peLi/basic-it](https://trello.com/b/Msx4peLi/basic-it) — tableau partagé avec la direction, source de vérité pour l'avancement.
+
+### Rituels
 
 | Rituel | Fréquence | Participants | Sortie |
 |---|---|---|---|

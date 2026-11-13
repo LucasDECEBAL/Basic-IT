@@ -67,6 +67,12 @@ Créer le site web de Basic IT : vitrine, réservation en ligne, paiement et bac
 
 > `A/R` signifie que la même personne approuve et réalise la tâche. Deux `R` sur une ligne indiquent un travail partagé entre deux personnes.
 
+## Méthode et suivi
+
+Méthode **agile**, en 3 lots de 4 semaines (le besoin bouge, le client veut voir tôt). Budget et date restent fixes.
+
+Suivi des tâches : [trello.com/b/Msx4peLi/basic-it](https://trello.com/b/Msx4peLi/basic-it)
+
 ## Structure du dépôt
 
 ```
