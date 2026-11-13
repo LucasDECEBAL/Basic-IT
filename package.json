@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "portless alias basic-it 3000 --force >/dev/null 2>&1 || true; next dev -p 3000",
+    "dev": "bun scripts/dev.mjs",
     "build": "next build",
     "start": "next start",
     "lint": "eslint"

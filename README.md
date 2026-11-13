@@ -20,11 +20,22 @@ bun install
 bun dev
 ```
 
-Le site est alors disponible sur [http://localhost:3000](http://localhost:3000).
-Le script `bun run dev` démarre Next sur le port 3000 et enregistre automatiquement
-l'alias Portless `basic-it` vers ce port, donc `https://basic-it.localhost` fonctionne
-aussi. Le port 3000 est celui utilisé par la Stripe CLI pour le webhook local.
-Ne pas envelopper `bun run dev` dans `portless`, le script gère lui-même l'alias.
+Le script `bun run dev` démarre deux processus :
+
+- Next sur le premier port libre à partir de 3000, ou `PORT=4000 bun run dev` pour
+  choisir le point de départ ;
+- `stripe listen` vers `http://localhost:<port>/api/stripe/webhook`, sur le même
+  port. Le secret `whsec_...` affiché par la CLI est injecté directement dans
+  l'environnement de Next, sans avoir à le recopier pour le développement.
+
+Le script enregistre aussi l'alias Portless `basic-it` vers le port choisi, donc
+`https://basic-it.localhost` suit automatiquement. Ne pas envelopper `bun run dev`
+dans `portless`.
+
+Si la Stripe CLI est absente ou n'est pas connectée, Next démarre quand même.
+Pour lancer uniquement le serveur : `STRIPE_LISTEN=0 bun run dev`.
+
+Le site est disponible sur `http://localhost:<port>` et `https://basic-it.localhost`.
 
 Production :
 
