@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#234f3e">
+  <meta name="description" content="Basic IT, salle de sport et coaching. Découvrez les disciplines, consultez le planning et réservez votre prochaine séance. Site de démonstration.">
+  <title>Basic IT · Votre prochain mouvement</title>
+  <link rel="icon" href="/assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/style.css">
+  <script type="module" src="/app.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Aller au contenu</a>
+  <div class="demo-banner"><span class="live-dot"></span> Mode démonstration — aucun paiement réel <span class="demo-extra">· Entreprise fictive</span></div>
+  <header class="site-header">
+    <a class="logo" href="#/" aria-label="Basic IT, accueil"><span class="logo-symbol" aria-hidden="true">↗</span><span>BASIC<span class="logo-it"> IT<span class="logo-period">.</span></span></span></a>
+    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="navigation">Menu <span aria-hidden="true">☰</span></button>
+    <nav id="navigation" aria-label="Navigation principale">
+      <a href="#/" data-nav="home">Accueil</a><a href="#/offres" data-nav="offres">Offres</a><a href="#/planning" data-nav="planning">Planning</a><a href="#/salle" data-nav="salle">La salle</a><a href="#/contact" data-nav="contact">Contact</a>
+    </nav>
+    <a class="button small header-cta" href="#/planning">Réserver une séance <span aria-hidden="true">↗</span></a>
+  </header>
+  <main id="main" tabindex="-1"><div class="loading" role="status">Préparation de votre prochaine séance…</div></main>
+  <footer class="site-footer">
+    <div class="footer-top"><a class="logo" href="#/">BASIC IT<span class="logo-period">.</span></a><p>Le bon mouvement commence ici.</p><a href="#/planning" class="text-link">Trouver ma séance ↗</a></div>
+    <div class="footer-bottom"><span>© <span id="year"></span> Basic IT · Projet fictif et indépendant.</span><div><a href="#/legal">Mentions légales</a><a href="#/confidentialite">Confidentialité</a><a href="#/conditions">Conditions</a><a href="#/cookies">Cookies</a><a href="#/salaries">Espace salarié ↗</a></div></div>
+  </footer>
+  <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+  <dialog id="confirm-dialog" aria-labelledby="confirm-title"><form method="dialog"><span class="eyebrow">Confirmation</span><h2 id="confirm-title">Confirmer cette action ?</h2><p id="confirm-message"></p><div class="actions"><button value="cancel" class="button secondary">Revenir</button><button value="confirm" class="button">Confirmer</button></div></form></dialog>
+</body>
+</html>
