@@ -30,7 +30,7 @@
     </section>
 
     <!-- 2 -->
-    <section>
+    <section class="dark" data-state="dark" data-background-color="#0b2b20">
       <p class="eyebrow">Le projet en une phrase</p>
       <blockquote class="pitch">
         « Pour les sportifs qui ne pouvaient réserver qu'au téléphone,
@@ -295,9 +295,9 @@
     </section>
 
     <!-- 13 -->
-    <section class="fin">
+    <section class="fin dark" data-state="dark" data-background-color="#0b2b20">
       <p class="eyebrow">Conclusion</p>
-      <h2>Ce site n'est pas une dépense :<br>c'est <span style="color:var(--volt)">30 clients par semaine</span>.</h2>
+      <h2>Ce site n'est pas une dépense :<br>c'est <span style="color:var(--sage-soft)">30 clients par semaine</span>.</h2>
       <p class="lead">Merci — nous répondons à vos questions.</p>
       <aside class="notes">
         Terminer par la date et le budget : « 20 000 €, 12 semaines, livré le 26 mars. »
@@ -338,7 +338,7 @@
     setInterval(function () {
       var s = Math.floor((Date.now() - start) / 1000);
       el.textContent = pad(Math.floor(s / 60)) + ':' + pad(s % 60);
-      el.style.color = s > LIMIT ? 'rgba(255,92,56,.9)' : 'rgba(139,150,168,.65)';
+      el.style.color = s > LIMIT ? '#c96f5a' : '#8ea89d';
     }, 1000);
 
     document.addEventListener('keydown', function (e) {

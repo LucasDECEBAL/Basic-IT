@@ -36,7 +36,7 @@ Le chronomètre en bas à droite passe au rouge au-delà de **15 minutes** : c'e
 | Slides | 13, contenu et chiffres identiques à la version reveal.js |
 | Notes | Les notes de présentateur sont dans la zone « Commentaires » de chaque slide |
 | Police | Segoe UI (installée par défaut sur Windows) |
-| Thème | Fond `#0A0C10`, accent `#C6FF00` |
+| Thème | Palette du site : fond écrue `#F7F8F5`, vert forêt `#0B2B20`, sauge `#8EA89D` |
 
 À privilégier : la version reveal.js pour la projection, le `.pptx` si l'établissement impose PowerPoint. Les deux se mettent à jour séparément — toute modification de contenu doit être reportée dans les deux.
 
@@ -99,7 +99,7 @@ $base = "file:///C:/Users/lucas/Desktop/Basic%20IT/Basic-IT/docs/soutenance/inde
 ```
 soutenance/
 ├── index.html          # la présentation
-├── deck.css            # thème Basic IT (noir + vert volt)
+├── deck.css            # thème Basic IT (écru, forêt, sauge)
 ├── apercus/            # captures PNG des 13 slides (1280×720)
 └── reveal/             # reveal.js 5.2.1, copie locale (MIT)
     ├── LICENSE
