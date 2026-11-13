@@ -40,6 +40,27 @@ Le chronomètre en bas à droite passe au rouge au-delà de **15 minutes** : c'e
 
 À privilégier : la version reveal.js pour la projection, le `.pptx` si l'établissement impose PowerPoint. Les deux se mettent à jour séparément — toute modification de contenu doit être reportée dans les deux.
 
+## Animations
+
+Les deux supports animent l'arrivée des éléments, sans jamais masquer de contenu (une impression ou un export PDF reste complet).
+
+**Version web** — en CSS pur, déclenché par la classe `.present` de reveal :
+
+- titres et textes : montée de 18 px avec fondu, 0,55 s ;
+- cartes, chiffres et étapes : même effet, décalé de 80 ms par élément (effet cascade) ;
+- barres des étapes du parcours : croissance horizontale depuis la gauche ;
+- citation du pitch : fondu simple, 0,7 s.
+
+Les animations se rejouent à chaque retour sur une slide et se désactivent automatiquement si le système demande « réduire les animations » (`prefers-reduced-motion`).
+
+**Version PowerPoint** — animations natives (fondu, 0,45 s, déclenchement « avec la précédente », décalage de 80 ms). Elles sont appliquées par script après génération :
+
+```powershell
+powershell -File docs/soutenance/tools/ajouter-animations.ps1 -Path docs/soutenance/Basic-IT-soutenance.pptx
+```
+
+Le script nécessite PowerPoint installé. Il supprime les animations existantes avant de les recréer, donc il est réexécutable sans risque. **Attention** : régénérer le `.pptx` depuis le générateur efface les animations, il faut relancer le script.
+
 ## Contenu
 
 13 slides, alignées sur `docs/05-soutenance.md` :
@@ -101,6 +122,7 @@ soutenance/
 ├── index.html          # la présentation
 ├── deck.css            # thème Basic IT (écru, forêt, sauge)
 ├── apercus/            # captures PNG des 13 slides (1280×720)
+├── tools/              # script d'animations PowerPoint
 └── reveal/             # reveal.js 5.2.1, copie locale (MIT)
     ├── LICENSE
     ├── dist/           # reveal.js, reveal.css, thème black + police

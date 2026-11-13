@@ -416,3 +416,132 @@
   color: var(--sage-soft);
 }
 
+
+/* =========================================================
+   Animations d apparition
+   Chaque element entre en decalage quand la slide devient active.
+   ========================================================= */
+
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes grow-bar {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+
+.reveal .slides section.present .eyebrow,
+.reveal .slides section.present h1,
+.reveal .slides section.present h2,
+.reveal .slides section.present .lead,
+.reveal .slides section.present .meta,
+.reveal .slides section.present .hero-number,
+.reveal .slides section.present .hero-caption,
+.reveal .slides section.present table,
+.reveal .slides section.present ul.tight li,
+.reveal .slides section.present .stat,
+.reveal .slides section.present .card,
+.reveal .slides section.present .step {
+  animation: rise-in 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* barre du pitch : fondu simple */
+.reveal .slides section.present .pitch {
+  animation: fade-in 0.7s ease-out both;
+}
+
+.reveal .slides section.present .step {
+  position: relative;
+}
+
+.reveal .slides section.present .step::before {
+  content: "";
+  position: absolute;
+  top: -3px;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--forest);
+  transform-origin: left center;
+  animation: grow-bar 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.reveal .slides section.present .step {
+  border-top-color: transparent;
+  padding-top: 0.6em;
+}
+
+/* decalage en cascade */
+.reveal .slides section.present .stat:nth-child(1),
+.reveal .slides section.present .card:nth-child(1),
+.reveal .slides section.present .step:nth-child(1) {
+  animation-delay: 0.06s;
+}
+
+.reveal .slides section.present .stat:nth-child(2),
+.reveal .slides section.present .card:nth-child(2),
+.reveal .slides section.present .step:nth-child(2) {
+  animation-delay: 0.14s;
+}
+
+.reveal .slides section.present .stat:nth-child(3),
+.reveal .slides section.present .card:nth-child(3),
+.reveal .slides section.present .step:nth-child(3) {
+  animation-delay: 0.22s;
+}
+
+.reveal .slides section.present .stat:nth-child(4),
+.reveal .slides section.present .card:nth-child(4),
+.reveal .slides section.present .step:nth-child(4) {
+  animation-delay: 0.3s;
+}
+
+.reveal .slides section.present h1,
+.reveal .slides section.present h2 {
+  animation-delay: 0.04s;
+}
+
+.reveal .slides section.present .eyebrow {
+  animation-delay: 0s;
+}
+
+.reveal .slides section.present table {
+  animation-delay: 0.12s;
+}
+
+.reveal .slides section.present ul.tight li:nth-child(1) { animation-delay: 0.1s; }
+.reveal .slides section.present ul.tight li:nth-child(2) { animation-delay: 0.18s; }
+.reveal .slides section.present ul.tight li:nth-child(3) { animation-delay: 0.26s; }
+
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal .slides section.present .eyebrow,
+  .reveal .slides section.present h1,
+  .reveal .slides section.present h2,
+  .reveal .slides section.present .lead,
+  .reveal .slides section.present .meta,
+  .reveal .slides section.present .hero-number,
+  .reveal .slides section.present .hero-caption,
+  .reveal .slides section.present table,
+  .reveal .slides section.present ul.tight li,
+  .reveal .slides section.present .stat,
+  .reveal .slides section.present .card,
+  .reveal .slides section.present .step,
+  .reveal .slides section.present .pitch,
+  .reveal .slides section.present .step::before {
+    animation: none;
+  }
+}
