@@ -604,3 +604,25 @@
   line-height: 1.35;
   color: var(--muted);
 }
+
+/* --- QQQQCP --- */
+
+.reveal .qqoqcp {
+  margin-top: 0.55em;
+  gap: 16px;
+}
+
+.reveal .qqoqcp .card {
+  padding: 0.55em 0.65em;
+}
+
+.reveal .qqoqcp .card h3 {
+  font-size: 0.62em;
+  color: var(--forest);
+  margin-bottom: 0.35em;
+}
+
+.reveal .qqoqcp .card p {
+  font-size: 0.48em;
+  line-height: 1.4;
+}

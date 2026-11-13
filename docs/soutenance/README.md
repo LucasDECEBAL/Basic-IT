@@ -63,24 +63,25 @@ Le script nécessite PowerPoint installé. Il supprime les animations existantes
 
 ## Contenu
 
-14 slides, alignées sur `docs/05-soutenance.md` :
+15 slides, alignées sur `docs/05-soutenance.md` :
 
 | Slide | Sujet | Temps |
 |---|---|---|
 | 1 | Couverture | 1 min |
 | 2 | Le pitch en une phrase | — |
-| 3 | Le problème chiffré | 2 min 30 |
-| 4 | Le coût du problème | — |
-| 5 | La solution | 2 min 30 |
-| 6 | Parcours client | — |
-| 7 | Démonstration | 2 min 30 |
-| 8 | Back-office | — |
-| 9 | Budget | 2 min |
-| 10 | Planning | — |
-| 11 | Méthode agile et suivi Trello | 1 min |
-| 12 | Risques | 1 min 30 |
-| 13 | KPI | 1 min 30 |
-| 14 | Conclusion | 1 min 30 |
+| 3 | QQQQCP | 45 s |
+| 4 | Le problème chiffré | 2 min 15 |
+| 5 | Le coût du problème | — |
+| 6 | La solution | 2 min 30 |
+| 7 | Parcours client | — |
+| 8 | Démonstration | 2 min 30 |
+| 9 | Back-office | — |
+| 10 | Budget | 1 min 30 |
+| 11 | Planning | — |
+| 12 | Méthode agile et suivi Trello | 1 min |
+| 13 | Risques | 1 min 15 |
+| 14 | KPI | 1 min 15 |
+| 15 | Conclusion | 1 min 30 |
 
 Chaque slide contient des **notes de présentateur** (touche `S`) avec le script et les réponses aux questions probables.
 
@@ -98,30 +99,31 @@ Trois captures réelles, prises sur le site en local (`bun dev`, Chrome headless
 
 ## Aperçus
 
-Captures des 14 slides, générées en 1280×720 dans `apercus/`.
+Captures des 15 slides, générées en 1280×720 dans `apercus/`.
 
 | # | Sujet | Fichier |
 |---|---|---|
 | 1 | Couverture | [`slide-01.png`](apercus/slide-01.png) |
 | 2 | Pitch en une phrase | [`slide-02.png`](apercus/slide-02.png) |
-| 3 | Problème chiffré | [`slide-03.png`](apercus/slide-03.png) |
-| 4 | Coût du problème | [`slide-04.png`](apercus/slide-04.png) |
-| 5 | Solution | [`slide-05.png`](apercus/slide-05.png) |
-| 6 | Parcours client | [`slide-06.png`](apercus/slide-06.png) |
-| 7 | Démonstration | [`slide-07.png`](apercus/slide-07.png) |
-| 8 | Back-office | [`slide-08.png`](apercus/slide-08.png) |
-| 9 | Budget | [`slide-09.png`](apercus/slide-09.png) |
-| 10 | Planning | [`slide-10.png`](apercus/slide-10.png) |
-| 11 | Méthode agile | [`slide-11.png`](apercus/slide-11.png) |
-| 12 | Risques | [`slide-12.png`](apercus/slide-12.png) |
-| 13 | KPI | [`slide-13.png`](apercus/slide-13.png) |
-| 14 | Conclusion | [`slide-14.png`](apercus/slide-14.png) |
+| 3 | QQQQCP | [`slide-03.png`](apercus/slide-03.png) |
+| 4 | Problème chiffré | [`slide-04.png`](apercus/slide-04.png) |
+| 5 | Coût du problème | [`slide-05.png`](apercus/slide-05.png) |
+| 6 | Solution | [`slide-06.png`](apercus/slide-06.png) |
+| 7 | Parcours client | [`slide-07.png`](apercus/slide-07.png) |
+| 8 | Démonstration | [`slide-08.png`](apercus/slide-08.png) |
+| 9 | Back-office | [`slide-09.png`](apercus/slide-09.png) |
+| 10 | Budget | [`slide-10.png`](apercus/slide-10.png) |
+| 11 | Planning | [`slide-11.png`](apercus/slide-11.png) |
+| 12 | Méthode agile | [`slide-12.png`](apercus/slide-12.png) |
+| 13 | Risques | [`slide-13.png`](apercus/slide-13.png) |
+| 14 | KPI | [`slide-14.png`](apercus/slide-14.png) |
+| 15 | Conclusion | [`slide-15.png`](apercus/slide-15.png) |
 
 Régénération (Chrome installé) :
 
 ```powershell
 $base = "file:///C:/Users/lucas/Desktop/Basic%20IT/Basic-IT/docs/soutenance/index.html"
-0..13 | ForEach-Object {
+0..14 | ForEach-Object {
   $n = "{0:D2}" -f ($_ + 1)
   & "C:\Program Files\Google\Chrome\Application\chrome.exe" `
     --headless=new --disable-gpu --hide-scrollbars --window-size=1280,720 `

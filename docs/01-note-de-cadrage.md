@@ -40,6 +40,18 @@ Hypothèses à valider en semaine 1 par les entretiens clients :
 
 > « Pour les sportifs qui ne pouvaient réserver qu'au téléphone, Basic IT est le site de réservation en ligne qui capte 50 clients par semaine, contrairement au standard saturé. »
 
+### Le projet en six questions (QQQQCP)
+
+| Question | Réponse |
+|---|---|
+| **Quoi ?** | Le site web de Basic IT : vitrine, réservation, paiement Stripe (mode test) et back-office. |
+| **Qui ?** | 4 personnes en interne, pour 20 salariés et les clients de la salle. |
+| **Où ?** | En ligne, sur `basicit.fr`. Projet mené au studio, Paris 11e. |
+| **Quand ?** | Du 4 janvier au 26 mars 2027, 12 semaines. Mise en ligne le 21 mars. |
+| **Comment ?** | Agile, 3 lots de 4 semaines, suivi Trello, budget 20 000 €. |
+| **Pourquoi ?** | 50 clients perdus par semaine faute de réservation en ligne, soit 52 000 € de CA manqué par an. |
+| **Combien ?** | 20 000 € de budget, 30 jours-homme, marge de 10 % incluse. |
+
 ## 5. Objectifs
 
 | Objectif | Indicateur | Cible | Échéance |

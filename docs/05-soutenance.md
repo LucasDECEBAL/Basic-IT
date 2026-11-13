@@ -4,34 +4,35 @@
 
 | Temps | Qui | Contenu | Support | Message clé |
 |---|---|---|---|---|
-| 0:00 – 1:00 | Chef de projet | Pitch en une phrase + annonce du plan | Slide 1 | « 50 clients perdus par semaine, réglé en 12 semaines. » |
-| 1:00 – 3:30 | Chef de projet | Basic IT, 20 salariés, aucun site, coût du problème | Slides 2-3 | 2 400 clients/an, 52 000 € de CA manqué |
-| 3:30 – 6:00 | Designer | Parcours client en 4 écrans + maquettes | Slides 4-6 | Réserver en 3 clics, 24h/24 |
-| 6:00 – 8:30 | Dev front | Démo du site | Slides 7-8 | « Je viens de réserver un cours en 40 secondes. » |
-| 8:30 – 10:00 | Chef de projet | Budget 20 000 € + planning + 5 jalons | Slides 9-10 | Tout tient, avec 10 % de marge |
-| 10:00 – 11:00 | Chef de projet | Méthode agile, 3 lots, suivi Trello | Slide 11 | Le besoin bouge, le client voit tôt |
-| 11:00 – 12:15 | Dev back | Risques et sécurité / RGPD | Slide 12 | Aucune donnée bancaire stockée chez nous |
-| 12:15 – 13:30 | Designer | KPI attendus à 3 mois | Slide 13 | 50 réservations/semaine, −50 % d'appels |
-| 13:30 – 15:00 | Chef de projet | Conclusion + ouverture aux questions | Slide 14 | « Ce site n'est pas une dépense : c'est 30 clients par semaine. » |
+| 0:00 – 1:00 | Chef de projet | Pitch en une phrase + annonce du plan | Slides 1-2 | « 50 clients perdus par semaine, réglé en 12 semaines. » |
+| 1:00 – 4:00 | Chef de projet | Contexte, QQQQCP, problème chiffré, coût | Slides 3-5 | 2 400 clients/an, 52 000 € de CA manqué |
+| 4:00 – 6:00 | Designer | Parcours client en 4 écrans + maquettes | Slides 6-7 | Réserver en 3 clics, 24h/24 |
+| 6:00 – 8:30 | Dev front | Démo du site | Slides 8-9 | « Je viens de réserver un cours en 40 secondes. » |
+| 8:30 – 10:00 | Chef de projet | Budget 20 000 € + planning + 5 jalons | Slides 10-11 | Tout tient, avec 10 % de marge |
+| 10:00 – 11:00 | Chef de projet | Méthode agile, 3 lots, suivi Trello | Slide 12 | Le besoin bouge, le client voit tôt |
+| 11:00 – 12:15 | Dev back | Risques et sécurité / RGPD | Slide 13 | Aucune donnée bancaire stockée chez nous |
+| 12:15 – 13:30 | Designer | KPI attendus à 3 mois | Slide 14 | 50 réservations/semaine, −50 % d'appels |
+| 13:30 – 15:00 | Chef de projet | Conclusion + ouverture aux questions | Slide 15 | « Ce site n'est pas une dépense : c'est 30 clients par semaine. » |
 
 > Si les questions sont **comprises** dans les 15 minutes : réduire la démo à 1 min 30 et garder 2 minutes de marge.
 
-## Trame de slides (14 slides)
+## Trame de slides (15 slides)
 
 1. Titre — Basic IT, le site web de la salle
 2. Le pitch en une phrase
-3. Le problème chiffré (50 clients/semaine, 20 appels manqués/jour)
-4. Le coût du problème (52 000 €/an)
-5. La solution : vitrine + réservation + paiement
-6. Parcours client en 4 écrans
-7. Démo
-8. Le back-office pour les 20 salariés
-9. Budget 20 000 €
-10. Planning 12 semaines et 5 jalons
-11. Méthode agile et suivi Trello
-12. Risques et RGPD
-13. KPI à 3 mois
-14. Conclusion
+3. QQQQCP — le projet en six questions
+4. Le problème chiffré (50 clients/semaine, 20 appels manqués/jour)
+5. Le coût du problème (52 000 €/an)
+6. La solution : vitrine + réservation + paiement
+7. Parcours client en 4 écrans
+8. Démo
+9. Le back-office pour les 20 salariés
+10. Budget 20 000 €
+11. Planning 12 semaines et 5 jalons
+12. Méthode agile et suivi Trello
+13. Risques et RGPD
+14. KPI à 3 mois
+15. Conclusion
 
 ## Script oral — 30 secondes
 
@@ -41,8 +42,8 @@
 
 | Personne | Temps | Rôle à l'oral |
 |---|---|---|
-| Chef de projet | 7 min 30 | Introduit, chiffre, conclut |
-| Designer | 3 min 45 | Montre le parcours et les KPI |
+| Chef de projet | 8 min | Introduit, cadre, chiffre, conclut |
+| Designer | 3 min 15 | Montre le parcours et les KPI |
 | Dev front | 2 min 30 | Démontre, jamais de jargon |
 | Dev back | 1 min 15 | Rassure sur la sécurité |
 

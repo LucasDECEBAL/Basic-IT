@@ -22,7 +22,7 @@ try {
       $name = ""
       try { $name = [string]$shape.TextFrame.TextRange.Text } catch { }
       # on n'anime pas le pied de page (marque et numerotation)
-      if ($name -eq "BASIC IT" -or $name -match '^\d+ / 14$') { continue }
+      if ($name -eq "BASIC IT" -or $name -match '^\d+ / 15$') { continue }
 
       $effect = $main.AddEffect($shape, $FADE, 0, $WITH_PREVIOUS)
       $effect.Timing.Duration = 0.45
