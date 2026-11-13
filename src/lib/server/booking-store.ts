@@ -355,14 +355,27 @@ function makeCode(existing: Set<string>) {
   return `BIT-2027-${randomUUID().slice(0, 4).toUpperCase()}`;
 }
 
-export async function listBookings(): Promise<Booking[]> {
+async function readSwept(): Promise<StoreFile> {
+  const store = await readStore();
+  if (!sweep(store)) {
+    return store;
+  }
+
+  // An expired pending hold is rare. Persist it under the lock, but keep the
+  // common read path lock-free: creating the lock file on every poll would
+  // make the Next dev watcher reload the page in a loop.
   return withStoreLock(async () => {
-    const store = await readStore();
-    if (sweep(store)) {
-      await writeStore(store);
+    const fresh = await readStore();
+    if (sweep(fresh)) {
+      await writeStore(fresh);
     }
-    return store.bookings.filter(isActiveBooking);
+    return fresh;
   });
+}
+
+export async function listBookings(): Promise<Booking[]> {
+  const store = await readSwept();
+  return store.bookings.filter(isActiveBooking);
 }
 
 export async function createBooking(input: CreateBookingInput): Promise<Booking> {
@@ -452,29 +465,19 @@ export async function clearBookings(): Promise<void> {
 }
 
 export async function getAvailabilityCounts(): Promise<Record<string, number>> {
-  return withStoreLock(async () => {
-    const store = await readStore();
-    if (sweep(store)) {
-      await writeStore(store);
-    }
+  const store = await readSwept();
 
-    const counts: Record<string, number> = {};
-    for (const booking of store.bookings) {
-      if (!isActiveBooking(booking)) continue;
-      counts[booking.slotId] = (counts[booking.slotId] ?? 0) + 1;
-    }
-    return counts;
-  });
+  const counts: Record<string, number> = {};
+  for (const booking of store.bookings) {
+    if (!isActiveBooking(booking)) continue;
+    counts[booking.slotId] = (counts[booking.slotId] ?? 0) + 1;
+  }
+  return counts;
 }
 
 export async function getBookingById(id: string): Promise<Booking | null> {
-  return withStoreLock(async () => {
-    const store = await readStore();
-    if (sweep(store)) {
-      await writeStore(store);
-    }
-    return store.bookings.find((booking) => booking.id === id) ?? null;
-  });
+  const store = await readSwept();
+  return store.bookings.find((booking) => booking.id === id) ?? null;
 }
 
 export async function createPendingBooking(

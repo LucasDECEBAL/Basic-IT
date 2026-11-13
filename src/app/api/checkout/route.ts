@@ -83,7 +83,7 @@ export async function POST(request: Request) {
           },
         },
         success_url: appUrl(
-          `/reservation/${booking.id}?session_id={CHECKOUT_SESSION_ID}`,
+          `/reservation?id=${booking.id}&session_id={CHECKOUT_SESSION_ID}`,
         ),
         cancel_url: appUrl("/#reserver"),
         expires_at:

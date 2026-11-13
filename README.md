@@ -66,7 +66,7 @@ bunx tsc --noEmit
 4. Le serveur crée une réservation **en attente** qui bloque la place, puis une
    session Stripe Checkout. Le navigateur est redirigé vers Stripe.
 5. Payer avec `4242 4242 4242 4242`, une date future et n'importe quel CVC.
-6. Stripe revient sur `/reservation/<id>`. La page vérifie le paiement et se met
+6. Stripe revient sur `/reservation?id=…`. La page vérifie le paiement et se met
    à jour dès que le webhook a confirmé la réservation.
 7. L'email de confirmation part après la confirmation, si le SMTP est configuré.
 8. La réservation apparaît dans `/admin`, protégé par mot de passe.

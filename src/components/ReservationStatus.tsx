@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft, Check } from "lucide-react";
 
@@ -23,15 +24,17 @@ type LoadState =
   | { kind: "not_found" }
   | { kind: "error" };
 
-type ReservationStatusProps = {
-  id: string;
-  sessionId: string | null;
-};
-
-export function ReservationStatus({ id, sessionId }: ReservationStatusProps) {
-  const [state, setState] = useState<LoadState>({ kind: "loading" });
+export function ReservationStatus() {
+  const searchParams = useSearchParams();
+  const id = searchParams.get("id");
+  const sessionId = searchParams.get("session_id");
+  const [state, setState] = useState<LoadState>(() =>
+    id ? { kind: "loading" } : { kind: "not_found" },
+  );
 
   useEffect(() => {
+    if (!id) return;
+
     let cancelled = false;
     let timer: number | undefined;
 
