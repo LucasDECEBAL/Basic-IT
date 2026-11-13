@@ -84,6 +84,18 @@ Le script nécessite PowerPoint installé. Il supprime les animations existantes
 
 Chaque slide contient des **notes de présentateur** (touche `S`) avec le script et les réponses aux questions probables.
 
+## Captures du site
+
+Trois captures réelles, prises sur le site en local (`bun dev`, Chrome headless), servent la slide 7 et la slide de démonstration :
+
+| Fichier | Contenu |
+|---|---|
+| `captures-site/accueil.png` | Page d'accueil : accroche, formats, CTA |
+| `captures-site/reservation.png` | Module de réservation complet (créneaux, places restantes) |
+| `captures-site/paiement-stripe.png` | Formulaire + bloc Stripe en mode test |
+
+**Paiement** : le site utilise Stripe avec une clé de test. La carte `4242 4242 4242 4242` simule le paiement, aucun débit n'est réel et aucun email n'est envoyé. C'est écrit dans l'interface, donc c'est vérifiable en soutenance.
+
 ## Aperçus
 
 Captures des 14 slides, générées en 1280×720 dans `apercus/`.
@@ -123,7 +135,8 @@ $base = "file:///C:/Users/lucas/Desktop/Basic%20IT/Basic-IT/docs/soutenance/inde
 soutenance/
 ├── index.html          # la présentation
 ├── deck.css            # thème Basic IT (écru, forêt, sauge)
-├── apercus/            # captures PNG des 13 slides (1280×720)
+├── apercus/            # captures PNG des 14 slides (1280×720)
+├── captures-site/      # captures du site réel (accueil, réservation, Stripe)
 ├── tools/              # script d'animations PowerPoint
 └── reveal/             # reveal.js 5.2.1, copie locale (MIT)
     ├── LICENSE

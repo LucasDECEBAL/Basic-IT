@@ -573,3 +573,34 @@
 .reveal .trello a:hover {
   border-bottom-color: var(--forest);
 }
+
+/* --- captures d ecran du site --- */
+
+.reveal .shots {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 22px;
+  margin-top: 0.55em;
+}
+
+.reveal .shot {
+  margin: 0;
+}
+
+.reveal .shot img {
+  display: block;
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+  object-position: top center;
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  background: var(--bone);
+}
+
+.reveal .shot figcaption {
+  margin-top: 0.55em;
+  font-size: 0.42em;
+  line-height: 1.35;
+  color: var(--muted);
+}

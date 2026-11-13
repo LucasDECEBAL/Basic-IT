@@ -113,7 +113,7 @@
         <div class="card">
           <span class="num">03</span>
           <h3>Paiement et back-office</h3>
-          <p>Paiement sécurisé par Stripe, planning géré par les 20 salariés.</p>
+          <p>Paiement par Stripe, en mode test : carte 4242, aucun débit réel. Planning géré par les 20 salariés.</p>
         </div>
       </div>
       <aside class="notes">
@@ -137,7 +137,7 @@
         </div>
         <div class="step">
           <b>3. Je paie</b>
-          <p>Carte bancaire via Stripe, sur une page sécurisée.</p>
+          <p>Stripe en mode test : carte 4242 4242 4242 4242, aucun débit réel.</p>
         </div>
         <div class="step">
           <b>4. Je reçois</b>
@@ -154,15 +154,21 @@
     <section>
       <p class="eyebrow">Démonstration</p>
       <h2>Le site, en direct.</h2>
-      <ul class="tight" style="margin-top:.4em">
-        <li>Accueil et planning → je choisis un cours</li>
-        <li>Réservation → je confirme un créneau</li>
-        <li>Back-office → le créneau passe de 11 à 10 places</li>
-      </ul>
-      <p class="meta">Si le direct échoue : maquette cliquable + captures dans l'annexe.</p>
+      <div class="shots">
+        <figure class="shot">
+          <img src="captures-site/accueil.png" alt="Page d'accueil du site Basic IT">
+          <figcaption>Accueil, planning et tarifs</figcaption>
+        </figure>
+        <figure class="shot">
+          <img src="captures-site/paiement-stripe.png" alt="Formulaire de réservation avec paiement Stripe en mode test">
+          <figcaption>Réservation et paiement Stripe — mode test, aucun débit</figcaption>
+        </figure>
+      </div>
+      <p class="meta">Si le direct échoue : ces captures sont dans l'annexe.</p>
       <aside class="notes">
-        Préparer un onglet ouvert d'avance, créneau de test réservé, capture d'écran en secours.
-        Parler pendant la démo : « je viens de réserver en 40 secondes, sans appeler ».
+        Montrer l'accueil, puis le module : je choisis un créneau, je saisis mes coordonnées,
+        je pars sur Stripe. Le paiement est en mode test : la carte 4242 n'est jamais débitée.
+        Si le direct échoue, on s'appuie sur ces deux captures.
       </aside>
     </section>
 
