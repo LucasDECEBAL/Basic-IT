@@ -21,8 +21,10 @@ bun dev
 ```
 
 Le site est alors disponible sur [http://localhost:3000](http://localhost:3000).
-Avec Portless, `portless basic-it bun run dev` expose la même application sur
-`https://basic-it.localhost`.
+Le script `bun run dev` démarre Next sur le port 3000 et enregistre automatiquement
+l'alias Portless `basic-it` vers ce port, donc `https://basic-it.localhost` fonctionne
+aussi. Le port 3000 est celui utilisé par la Stripe CLI pour le webhook local.
+Ne pas envelopper `bun run dev` dans `portless`, le script gère lui-même l'alias.
 
 Production :
 
