@@ -1,0 +1,354 @@
+/* =========================================================
+   Basic IT — thème de soutenance (reveal.js)
+   ========================================================= */
+
+:root {
+  --ink: #0a0c10;
+  --panel: #11161f;
+  --line: #1e2734;
+  --paper: #edf1f7;
+  --muted: #8b96a8;
+  --volt: #c6ff00;
+  --danger: #ff5c38;
+}
+
+.reveal {
+  font-family: "Source Sans Pro", system-ui, -apple-system, sans-serif;
+  font-size: 32px;
+  color: var(--paper);
+  background: var(--ink);
+}
+
+.reveal .slides {
+  text-align: left;
+}
+
+.reveal .slides section {
+  padding: 0 6px;
+}
+
+.reveal h1,
+.reveal h2,
+.reveal h3 {
+  font-family: inherit;
+  color: #fff;
+  text-transform: none;
+  letter-spacing: -0.02em;
+  text-shadow: none;
+  margin: 0 0 0.35em;
+}
+
+.reveal h1 {
+  font-size: 2.5em;
+  line-height: 1.02;
+  font-weight: 600;
+}
+
+.reveal h2 {
+  font-size: 1.45em;
+  line-height: 1.1;
+  font-weight: 600;
+}
+
+.reveal p {
+  line-height: 1.45;
+}
+
+.reveal strong {
+  color: var(--volt);
+  font-weight: 600;
+}
+
+.reveal em {
+  color: var(--muted);
+}
+
+/* --- bandeaux et textes utilitaires --- */
+
+.eyebrow {
+  font-size: 0.55em;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--volt);
+  margin: 0 0 0.85em;
+  font-weight: 600;
+}
+
+.lead {
+  font-size: 1.35em;
+  color: var(--muted);
+  margin: 0.4em 0 0;
+}
+
+.meta {
+  font-size: 0.55em;
+  color: var(--muted);
+  letter-spacing: 0.06em;
+  margin-top: 2em;
+  border-top: 1px solid var(--line);
+  padding-top: 0.9em;
+}
+
+/* --- couverture --- */
+
+.cover h1 {
+  font-size: 4.2em;
+  line-height: 0.95;
+  margin-bottom: 0.1em;
+}
+
+.cover h1 span {
+  color: var(--volt);
+}
+
+/* --- pitch --- */
+
+.pitch {
+  font-size: 1.5em;
+  line-height: 1.35;
+  font-weight: 300;
+  border: none;
+  box-shadow: none;
+  margin: 0;
+  background: none;
+  quotes: none;
+}
+
+.pitch b {
+  color: var(--volt);
+  font-weight: 600;
+}
+
+/* --- grilles --- */
+
+.grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.grid-4 {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+}
+
+/* --- chiffres --- */
+
+.stat {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 0.6em 0.7em;
+}
+
+.stat b {
+  display: block;
+  font-size: 1.9em;
+  line-height: 1;
+  color: var(--volt);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+}
+
+.stat b.is-danger {
+  color: var(--danger);
+}
+
+.stat span {
+  display: block;
+  margin-top: 0.45em;
+  color: var(--muted);
+  font-size: 0.46em;
+  line-height: 1.3;
+  letter-spacing: 0.02em;
+}
+
+/* --- cartes --- */
+
+.card {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 0.65em 0.7em;
+}
+
+.card h3 {
+  font-size: 0.68em;
+  margin: 0 0 0.4em;
+  color: #fff;
+}
+
+.card p {
+  font-size: 0.52em;
+  color: var(--muted);
+  margin: 0;
+  line-height: 1.4;
+}
+
+.card .num {
+  font-size: 0.5em;
+  color: var(--volt);
+  letter-spacing: 0.14em;
+  display: block;
+  margin-bottom: 0.5em;
+}
+
+/* --- étapes --- */
+
+.steps {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-top: 0.6em;
+}
+
+.step {
+  border-top: 3px solid var(--volt);
+  padding-top: 0.5em;
+}
+
+.step b {
+  font-size: 0.7em;
+  display: block;
+}
+
+.step p {
+  font-size: 0.46em;
+  color: var(--muted);
+  margin: 0.35em 0 0;
+}
+
+/* --- tableaux --- */
+
+.reveal table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.5em;
+  margin: 0;
+}
+
+.reveal table th {
+  text-align: left;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 0.78em;
+  font-weight: 600;
+  border-bottom: 1px solid var(--line);
+  padding: 0.5em 0.6em;
+}
+
+.reveal table td {
+  padding: 0.42em 0.6em;
+  border-bottom: 1px solid #151c26;
+}
+
+.reveal table td.num,
+.reveal table th.num {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.reveal table tr.total td {
+  color: var(--volt);
+  font-weight: 600;
+  border-bottom: none;
+  border-top: 1px solid var(--line);
+}
+
+.reveal table td .tag {
+  color: var(--volt);
+  font-weight: 600;
+}
+
+/* --- très gros chiffre --- */
+
+.hero-number {
+  font-size: 4.2em;
+  line-height: 1;
+  color: var(--volt);
+  font-weight: 600;
+  letter-spacing: -0.04em;
+  margin: 0;
+}
+
+.hero-caption {
+  font-size: 0.62em;
+  line-height: 1.4;
+  color: var(--muted);
+  letter-spacing: 0.01em;
+  margin: 0.7em 0 0;
+  max-width: 12em;
+}
+
+/* --- listes compactes --- */
+
+.reveal ul.tight {
+  margin: 0;
+  padding-left: 1.1em;
+}
+
+.reveal ul.tight li {
+  font-size: 0.6em;
+  line-height: 1.55;
+  margin-bottom: 0.25em;
+  color: var(--paper);
+}
+
+.reveal ul.tight li::marker {
+  color: var(--volt);
+}
+
+/* --- fin --- */
+
+.fin {
+  text-align: center;
+}
+
+.fin h2 {
+  font-size: 2.2em;
+}
+
+/* --- chrome fixe --- */
+
+.brand,
+.timer {
+  position: fixed;
+  bottom: 14px;
+  font-size: 13px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(139, 150, 168, 0.65);
+  z-index: 30;
+  pointer-events: none;
+  font-family: "Source Sans Pro", system-ui, sans-serif;
+}
+
+.brand {
+  left: 22px;
+  font-weight: 600;
+}
+
+.brand b {
+  color: rgba(198, 255, 0, 0.75);
+}
+
+.timer {
+  right: 22px;
+  top: 14px;
+  font-variant-numeric: tabular-nums;
+}
+
+@media print {
+  .brand,
+  .timer {
+    display: none;
+  }
+}
