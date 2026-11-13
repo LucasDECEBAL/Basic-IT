@@ -42,6 +42,7 @@ Créer le site web de Basic IT : vitrine, réservation en ligne, paiement et bac
 | [Planning](docs/03-planning.md) | 12 semaines, 5 jalons, rituels de suivi |
 | [KPI et risques](docs/04-kpi-et-risques.md) | Indicateurs de succès et plan de mitigation |
 | [Soutenance](docs/05-soutenance.md) | Déroulé des 15 minutes, script oral, questions probables |
+| [Présentation reveal.js](docs/soutenance/) | Les 15 minutes en 13 slides, notes de présentateur et chronomètre |
 | [Brief technique du site](docs/06-brief-technique-site-web.md) | Spécifications pour l'équipe web |
 
 ## Rôles
