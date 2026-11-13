@@ -322,7 +322,7 @@ export default function Home() {
             </Reveal>
             <Reveal className="lg:col-span-5" delay={100}>
               <p className="max-w-2xl text-base leading-relaxed text-ink">
-                Un ancien atelier de 180 m², remis à nu. Béton, acier, lumière du matin. Assez
+                Un ancien atelier de 180 m², remis à nu. Murs blancs, bois clair, plantes, lumière du matin. Assez
                 d&apos;espace pour bouger sans se croiser, assez de silence pour entendre son coach.
               </p>
             </Reveal>
@@ -331,8 +331,8 @@ export default function Home() {
           <Reveal className="mt-10" delay={80}>
             <div className="relative aspect-[4/3] overflow-hidden rounded-2xl bg-bone sm:aspect-[16/9]">
               <Image
-                src="/photos/studio-space.jpg"
-                alt="Vue du studio Basic IT : espace d'entraînement, racks et lumière du jour"
+                src="/photos/studio-bright.jpg"
+                alt="Vue du studio Basic IT : salle lumineuse, matériel en bois et plantes vertes"
                 fill
                 sizes="(min-width: 1240px) 1160px, 100vw"
                 className="object-cover"
@@ -502,7 +502,7 @@ export default function Home() {
               >
                 Pexels
               </a>{" "}
-              (Assomyron, Engin Akyurt, Ron Lach, Andres Ayrton, Dave Garcia, Tima Miroshnichenko, KoolShooters).
+              (Assomyron, Engin Akyurt, Ron Lach, Andres Ayrton, Dave Garcia, Ahmet Kurt, KoolShooters).
             </p>
           </div>
         </div>
