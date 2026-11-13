@@ -26,6 +26,20 @@ Le chronomètre en bas à droite passe au rouge au-delà de **15 minutes** : c'e
 2. `Ctrl + P` → destination « Enregistrer au format PDF ».
 3. Marges : **Aucune** · Graphiques d'arrière-plan : **cochés** · Paysage.
 
+## Version PowerPoint
+
+`Basic-IT-soutenance.pptx` est la même présentation au format natif PowerPoint (16:9, 292 Ko), pour les cas où seule une salle avec PowerPoint est disponible.
+
+| Point | Détail |
+|---|---|
+| Format | `.pptx` 13,333 × 7,5 in (16:9) |
+| Slides | 13, contenu et chiffres identiques à la version reveal.js |
+| Notes | Les notes de présentateur sont dans la zone « Commentaires » de chaque slide |
+| Police | Segoe UI (installée par défaut sur Windows) |
+| Thème | Fond `#0A0C10`, accent `#C6FF00` |
+
+À privilégier : la version reveal.js pour la projection, le `.pptx` si l'établissement impose PowerPoint. Les deux se mettent à jour séparément — toute modification de contenu doit être reportée dans les deux.
+
 ## Contenu
 
 13 slides, alignées sur `docs/05-soutenance.md` :
