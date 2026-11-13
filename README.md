@@ -53,6 +53,29 @@ Créer le site web de Basic IT : vitrine, réservation en ligne, paiement et bac
 | Développeur front | Intégration, pages, tunnel de réservation |
 | Développeur back | Base de données, paiement, back-office |
 
+### Matrice RACI
+
+**R** Réalise · **A** Approuve (une seule personne par ligne) · **C** Consulté · **I** Informé
+
+| Tâche | Chef de projet | Designer | Dev front | Dev back | Direction |
+|---|:---:|:---:|:---:|:---:|:---:|
+| Cadrage et note de cadrage | **A/R** | C | I | I | C |
+| Budget et planning | **A/R** | I | I | I | C |
+| Maquettes et charte graphique | A | **R** | C | C | I |
+| Choix techniques (CMS, Stripe) | A | C | C | **R** | I |
+| Intégration du site vitrine | A | C | **R** | C | I |
+| Tunnel de réservation et espace client | A | C | **R** | C | I |
+| Paiement Stripe et emails automatiques | A | I | C | **R** | I |
+| Back-office et base de données | A | I | C | **R** | I |
+| Sécurité et conformité RGPD | A | C | C | **R** | C |
+| Recette et tests utilisateurs | **A** | **R** | C | C | I |
+| Mise en production | A | I | C | **R** | I |
+| Formation des 20 salariés | **A/R** | C | I | C | I |
+| Communication et lancement | **A/R** | **R** | I | I | C |
+| Soutenance (15 min) | **A** | R | R | R | I |
+
+> `A/R` signifie que la même personne approuve et réalise la tâche.
+
 ## Structure du dépôt
 
 ```
