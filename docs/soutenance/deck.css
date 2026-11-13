@@ -103,15 +103,24 @@
 
 /* --- pitch --- */
 
-.pitch {
-  font-size: 1.5em;
-  line-height: 1.35;
+.reveal .pitch {
+  font-size: 1.34em;
+  line-height: 1.4;
   font-weight: 300;
+  font-style: normal;
   border: none;
+  border-left: 4px solid var(--volt);
+  border-radius: 0;
   box-shadow: none;
   margin: 0;
+  padding: 0 0 0 0.7em;
   background: none;
   quotes: none;
+}
+
+.reveal .pitch::before,
+.reveal .pitch::after {
+  content: none;
 }
 
 .pitch b {

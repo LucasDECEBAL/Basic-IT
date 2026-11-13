@@ -48,12 +48,45 @@ Le chronomètre en bas à droite passe au rouge au-delà de **15 minutes** : c'e
 
 Chaque slide contient des **notes de présentateur** (touche `S`) avec le script et les réponses aux questions probables.
 
+## Aperçus
+
+Captures des 13 slides, générées en 1280×720 dans `apercus/`.
+
+| # | Sujet | Fichier |
+|---|---|---|
+| 1 | Couverture | [`slide-01.png`](apercus/slide-01.png) |
+| 2 | Pitch en une phrase | [`slide-02.png`](apercus/slide-02.png) |
+| 3 | Problème chiffré | [`slide-03.png`](apercus/slide-03.png) |
+| 4 | Coût du problème | [`slide-04.png`](apercus/slide-04.png) |
+| 5 | Solution | [`slide-05.png`](apercus/slide-05.png) |
+| 6 | Parcours client | [`slide-06.png`](apercus/slide-06.png) |
+| 7 | Démonstration | [`slide-07.png`](apercus/slide-07.png) |
+| 8 | Back-office | [`slide-08.png`](apercus/slide-08.png) |
+| 9 | Budget | [`slide-09.png`](apercus/slide-09.png) |
+| 10 | Planning | [`slide-10.png`](apercus/slide-10.png) |
+| 11 | Risques | [`slide-11.png`](apercus/slide-11.png) |
+| 12 | KPI | [`slide-12.png`](apercus/slide-12.png) |
+| 13 | Conclusion | [`slide-13.png`](apercus/slide-13.png) |
+
+Régénération (Chrome installé) :
+
+```powershell
+$base = "file:///C:/Users/lucas/Desktop/Basic%20IT/Basic-IT/docs/soutenance/index.html"
+0..12 | ForEach-Object {
+  $n = "{0:D2}" -f ($_ + 1)
+  & "C:\Program Files\Google\Chrome\Application\chrome.exe" `
+    --headless=new --disable-gpu --hide-scrollbars --window-size=1280,720 `
+    --screenshot="apercus\slide-$n.png" --virtual-time-budget=4000 "$base#/$_"
+}
+```
+
 ## Structure
 
 ```
 soutenance/
 ├── index.html          # la présentation
 ├── deck.css            # thème Basic IT (noir + vert volt)
+├── apercus/            # captures PNG des 13 slides (1280×720)
 └── reveal/             # reveal.js 5.2.1, copie locale (MIT)
     ├── LICENSE
     ├── dist/           # reveal.js, reveal.css, thème black + police
