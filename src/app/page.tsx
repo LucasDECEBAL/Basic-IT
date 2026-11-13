@@ -184,7 +184,7 @@ export default function Home() {
               </h2>
             </Reveal>
             <Reveal delay={100}>
-              <p className="max-w-md text-base leading-relaxed text-ink">
+              <p className="max-w-2xl text-base leading-relaxed text-ink lg:max-w-md">
                 Chaque format a un objectif précis et une intensité assumée. Vous ne choisissez pas
                 un cours, vous choisissez ce que vous venez travailler.
               </p>
@@ -268,7 +268,7 @@ export default function Home() {
                 </h2>
               </Reveal>
               <Reveal delay={100}>
-                <p className="max-w-md text-base leading-relaxed text-ink">
+                <p className="max-w-2xl text-base leading-relaxed text-ink lg:max-w-md">
                   Trois spécialités, trois façons de vous regarder bouger. Tous suivent le même
                   principe : huit personnes maximum, et le temps de vous voir.
                 </p>
@@ -312,7 +312,7 @@ export default function Home() {
               </h2>
             </Reveal>
             <Reveal className="lg:col-span-5" delay={100}>
-              <p className="text-base leading-relaxed text-ink">
+              <p className="max-w-2xl text-base leading-relaxed text-ink">
                 Un ancien atelier de 180 m², remis à nu. Béton, acier, lumière du matin. Assez
                 d&apos;espace pour bouger sans se croiser, assez de silence pour entendre son coach.
               </p>
@@ -365,7 +365,7 @@ export default function Home() {
                 <h2 className="max-w-[18ch] text-[clamp(2.2rem,4vw,3.6rem)] font-medium leading-[0.98] tracking-[-0.035em] text-forest">
                   Réserver, en trente secondes.
                 </h2>
-                <p className="mt-5 max-w-xl text-base leading-relaxed text-ink">
+                <p className="mt-5 max-w-2xl text-base leading-relaxed text-ink lg:max-w-xl">
                   Choisissez un jour et un créneau. Huit places par séance, pas une de plus. Le
                   module ci-dessous est une démonstration complète, du choix du cours à la
                   confirmation.

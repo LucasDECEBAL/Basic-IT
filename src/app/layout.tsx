@@ -35,7 +35,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="fr" className={archivo.variable}>
+    <html lang="fr" className={archivo.variable} suppressHydrationWarning>
       <body className="font-sans">
         <script
           // Enables the entrance transitions before the first paint, while

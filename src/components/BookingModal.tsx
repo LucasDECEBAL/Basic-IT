@@ -365,7 +365,7 @@ const Field = ({
       onChange={(event) => onChange(event.target.value)}
       aria-invalid={error ? "true" : undefined}
       aria-describedby={error ? `${id}-error` : undefined}
-      className={`w-full rounded-xl border bg-white px-4 py-3 text-base text-forest placeholder:text-muted/50 focus:outline-none focus:ring-2 focus:ring-sage ${
+      className={`w-full rounded-xl border bg-white px-4 py-3 text-base text-forest placeholder:text-muted/50 focus:outline-none focus-visible:outline-none focus:ring-2 focus:ring-sage ${
         error ? "border-[#a4442f]" : "border-field"
       }`}
     />
