@@ -42,3 +42,8 @@ next-env.d.ts
 
 # Tasteskill inspection artefacts
 .taste-skill/
+
+# Runtime booking data
+data/*.json
+data/*.lock
+data/*.tmp

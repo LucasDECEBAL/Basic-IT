@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useMemo, useRef, useState } from "react";
 import { Search, Trash2 } from "lucide-react";
-import { clearBookings, removeBooking, type Booking } from "@/lib/bookings";
+import type { Booking } from "@/lib/bookings";
 import { gsap, useGSAP } from "@/lib/gsap";
 import { prefersReducedMotion } from "@/lib/motion";
 import { FILTERS, FORMATS, type FormatKey } from "@/lib/sessions";
@@ -34,10 +34,13 @@ function formatOf(booking: Booking) {
 }
 
 export function AdminDashboard() {
-  const bookings = useBookings();
+  const { bookings, status, error, refresh } = useBookings();
   const [query, setQuery] = useState("");
   const [format, setFormat] = useState<"tous" | FormatKey>("tous");
   const [confirmClear, setConfirmClear] = useState(false);
+  const [clearing, setClearing] = useState(false);
+  const [deletingId, setDeletingId] = useState<string | null>(null);
+  const [actionError, setActionError] = useState<string | null>(null);
 
   const pageRef = useRef<HTMLDivElement>(null);
   const rowsRef = useRef<HTMLDivElement>(null);
@@ -67,6 +70,39 @@ export function AdminDashboard() {
       `${a.dateIso}T${a.time}`.localeCompare(`${b.dateIso}T${b.time}`),
     )[0];
   }, [bookings]);
+
+  const initialLoading = status === "loading" && bookings.length === 0;
+
+  const handleDelete = async (id: string) => {
+    setActionError(null);
+    setDeletingId(id);
+    try {
+      const response = await fetch(`/api/bookings/${encodeURIComponent(id)}`, {
+        method: "DELETE",
+      });
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      await refresh();
+    } catch {
+      setActionError("Suppression impossible. Le serveur n'a pas répondu.");
+    } finally {
+      setDeletingId(null);
+    }
+  };
+
+  const handleClear = async () => {
+    setActionError(null);
+    setClearing(true);
+    try {
+      const response = await fetch("/api/bookings", { method: "DELETE" });
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      setConfirmClear(false);
+      await refresh();
+    } catch {
+      setActionError("Effacement impossible. Le serveur n'a pas répondu.");
+    } finally {
+      setClearing(false);
+    }
+  };
 
   useGSAP(
     () => {
@@ -104,7 +140,7 @@ export function AdminDashboard() {
             Réservations
           </h1>
           <p className="mt-2 max-w-xl text-sm leading-relaxed text-muted">
-            Les réservations enregistrées dans ce navigateur, sur les sept prochains jours.
+            Les réservations enregistrées sur le serveur, sur les sept prochains jours.
           </p>
         </div>
         <div className="flex flex-wrap items-center gap-3">
@@ -114,13 +150,11 @@ export function AdminDashboard() {
                 <span className="text-muted">Tout effacer ?</span>
                 <button
                   type="button"
-                  onClick={() => {
-                    clearBookings();
-                    setConfirmClear(false);
-                  }}
-                  className="rounded-full bg-bone-deep px-4 py-2.5 font-medium text-forest transition-colors hover:bg-bone"
+                  onClick={() => void handleClear()}
+                  disabled={clearing}
+                  className="rounded-full bg-bone-deep px-4 py-2.5 font-medium text-forest transition-colors hover:bg-bone disabled:cursor-not-allowed disabled:opacity-60"
                 >
-                  Confirmer
+                  {clearing ? "Effacement…" : "Confirmer"}
                 </button>
                 <button
                   type="button"
@@ -154,14 +188,22 @@ export function AdminDashboard() {
         className="mt-8 grid grid-cols-2 gap-x-6 gap-y-8 rounded-2xl bg-white p-6 md:grid-cols-4 md:p-8"
       >
         {[
-          { label: "Réservations", value: String(bookings.length) },
-          { label: "Séances concernées", value: String(sessionCount) },
-          { label: "Revenu", value: money.format(revenue) },
+          {
+            label: "Réservations",
+            value: initialLoading ? "—" : String(bookings.length),
+          },
+          {
+            label: "Séances concernées",
+            value: initialLoading ? "—" : String(sessionCount),
+          },
+          { label: "Revenu", value: initialLoading ? "—" : money.format(revenue) },
           {
             label: "Première séance",
-            value: firstSession
-              ? `${compactDate(firstSession.dateIso)} · ${firstSession.time}`
-              : "Aucune",
+            value: initialLoading
+              ? "—"
+              : firstSession
+                ? `${compactDate(firstSession.dateIso)} · ${firstSession.time}`
+                : "Aucune",
           },
         ].map((stat) => (
           <div key={stat.label} data-admin-kpi>
@@ -213,13 +255,46 @@ export function AdminDashboard() {
         </label>
       </div>
 
+      {error || actionError ? (
+        <div className="mt-4 flex flex-wrap items-center justify-between gap-3 rounded-xl bg-[#f6e9e6] px-4 py-3 text-sm text-[#8f3a2a]">
+          <span>{actionError ?? error}</span>
+          <button
+            type="button"
+            onClick={() => void refresh()}
+            className="rounded-full bg-white px-3 py-1.5 text-[13px] font-medium text-[#8f3a2a]"
+          >
+            Réessayer
+          </button>
+        </div>
+      ) : null}
+
       <div ref={rowsRef} className="mt-4 rounded-2xl bg-white">
-        {bookings.length === 0 ? (
+        {initialLoading ? (
+          <div className="px-6 py-10 text-center">
+            <p className="text-base font-medium text-forest">Chargement des réservations…</p>
+            <p className="mt-2 text-sm text-muted">Lecture du fichier du studio.</p>
+          </div>
+        ) : status === "error" && bookings.length === 0 ? (
+          <div className="px-6 py-10 text-center">
+            <p className="text-base font-medium text-forest">Serveur injoignable.</p>
+            <p className="mx-auto mt-2 max-w-md text-sm leading-relaxed text-muted">
+              Vérifiez que le serveur Next tourne, puis réessayez. Les réservations sont stockées
+              dans le fichier JSON du projet.
+            </p>
+            <button
+              type="button"
+              onClick={() => void refresh()}
+              className="mt-5 rounded-full bg-forest px-5 py-2.5 text-sm font-medium text-ecru transition-colors hover:bg-forest-soft"
+            >
+              Réessayer
+            </button>
+          </div>
+        ) : bookings.length === 0 ? (
           <div className="px-6 py-10 text-center">
             <p className="text-base font-medium text-forest">Aucune réservation pour l&apos;instant.</p>
             <p className="mx-auto mt-2 max-w-md text-sm leading-relaxed text-muted">
-              Les réservations faites depuis la page d&apos;accueil apparaissent ici, dans ce
-              navigateur. Le stockage local survit à un rechargement.
+              Les réservations faites depuis la page d&apos;accueil apparaissent ici, pour tous les
+              appareils connectés au même serveur.
             </p>
             <Link
               href="/#reserver"
@@ -246,7 +321,7 @@ export function AdminDashboard() {
         ) : (
           <>
             <table className="hidden w-full border-collapse md:table">
-              <caption className="sr-only">Réservations enregistrées dans ce navigateur</caption>
+              <caption className="sr-only">Réservations enregistrées sur le serveur du studio</caption>
               <thead>
                 <tr className="text-left text-[13px] text-muted">
                   <th scope="col" className="px-6 py-4 font-normal">
@@ -299,9 +374,10 @@ export function AdminDashboard() {
                     <td className="px-4 py-4 text-right">
                       <button
                         type="button"
-                        onClick={() => removeBooking(booking.id)}
+                        onClick={() => void handleDelete(booking.id)}
+                        disabled={deletingId === booking.id}
                         aria-label={`Supprimer la réservation ${booking.code}`}
-                        className="inline-flex size-9 items-center justify-center rounded-full text-muted transition-colors hover:bg-bone hover:text-[#a4442f]"
+                        className="inline-flex size-9 items-center justify-center rounded-full text-muted transition-colors hover:bg-bone hover:text-[#a4442f] disabled:cursor-not-allowed disabled:opacity-50"
                       >
                         <Trash2 size={15} aria-hidden="true" />
                       </button>
@@ -328,9 +404,10 @@ export function AdminDashboard() {
                     </div>
                     <button
                       type="button"
-                      onClick={() => removeBooking(booking.id)}
+                      onClick={() => void handleDelete(booking.id)}
+                      disabled={deletingId === booking.id}
                       aria-label={`Supprimer la réservation ${booking.code}`}
-                      className="inline-flex size-9 shrink-0 items-center justify-center rounded-full text-muted transition-colors hover:bg-bone hover:text-[#a4442f]"
+                      className="inline-flex size-9 shrink-0 items-center justify-center rounded-full text-muted transition-colors hover:bg-bone hover:text-[#a4442f] disabled:cursor-not-allowed disabled:opacity-50"
                     >
                       <Trash2 size={15} aria-hidden="true" />
                     </button>
@@ -359,8 +436,8 @@ export function AdminDashboard() {
       </div>
 
       <p className="mt-6 text-[13px] leading-relaxed text-muted">
-        Stockage local du navigateur. Aucune donnée n&apos;est envoyée à un serveur. Espace de
-        démonstration sans authentification, à ne pas exposer tel quel en production.
+        Réservations stockées dans le fichier JSON du serveur, partagées entre les appareils.
+        Espace de démonstration sans authentification, à ne pas exposer tel quel en production.
       </p>
     </div>
   );

@@ -4,7 +4,7 @@ import { useEffect, useMemo, useRef, useState, type FormEvent, type Ref } from "
 import { ArrowRight, Check, Lock, X } from "lucide-react";
 import Link from "next/link";
 import { createPortal } from "react-dom";
-import { addBooking, makeBookingId } from "@/lib/bookings";
+import type { Booking } from "@/lib/bookings";
 import { PRICE, type Slot } from "@/lib/sessions";
 import { gsap, useGSAP } from "@/lib/gsap";
 import { prefersReducedMotion } from "@/lib/motion";
@@ -12,6 +12,7 @@ import { prefersReducedMotion } from "@/lib/motion";
 type BookingModalProps = {
   slot: Slot;
   onClose: () => void;
+  onBooked: () => void | Promise<void>;
 };
 
 type Fields = {
@@ -45,19 +46,12 @@ function formatExpiry(value: string) {
   return digits.length > 2 ? `${digits.slice(0, 2)}/${digits.slice(2)}` : digits;
 }
 
-function makeCode() {
-  const alphabet = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
-  let suffix = "";
-  for (let i = 0; i < 3; i += 1) {
-    suffix += alphabet[Math.floor(Math.random() * alphabet.length)];
-  }
-  return `BIT-2027-${suffix}`;
-}
-
-export function BookingModal({ slot, onClose }: BookingModalProps) {
+export function BookingModal({ slot, onClose, onBooked }: BookingModalProps) {
   const [fields, setFields] = useState<Fields>(EMPTY_FIELDS);
   const [errors, setErrors] = useState<Partial<Record<keyof Fields, string>>>({});
-  const [code, setCode] = useState<string | null>(null);
+  const [confirmed, setConfirmed] = useState<Booking | null>(null);
+  const [submitting, setSubmitting] = useState(false);
+  const [apiError, setApiError] = useState<string | null>(null);
   const panelRef = useRef<HTMLDivElement>(null);
   const closeRef = useRef<HTMLButtonElement>(null);
   const firstFieldRef = useRef<HTMLInputElement>(null);
@@ -134,7 +128,7 @@ export function BookingModal({ slot, onClose }: BookingModalProps) {
     return Object.keys(next).length === 0;
   };
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (!validate()) {
       const firstError = panelRef.current?.querySelector<HTMLElement>('[aria-invalid="true"]');
@@ -143,33 +137,52 @@ export function BookingModal({ slot, onClose }: BookingModalProps) {
     }
     if (submittedRef.current) return;
     submittedRef.current = true;
-    const generated = makeCode();
-    addBooking({
-      id: makeBookingId(),
-      code: generated,
-      slotId: slot.id,
-      dateIso: slot.dateIso,
-      dateLong: slot.dateLong,
-      time: slot.time,
-      format: slot.format,
-      course: slot.name,
-      coach: slot.coach,
-      duration: slot.duration,
-      price: PRICE,
-      name: fields.name.trim(),
-      email: fields.email.trim(),
-      phone: fields.phone.trim(),
-      createdAt: new Date().toISOString(),
-    });
-    setCode(generated);
-    requestAnimationFrame(() => closeRef.current?.focus());
+    setSubmitting(true);
+    setApiError(null);
+
+    try {
+      const response = await fetch("/api/bookings", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          dateIso: slot.dateIso,
+          time: slot.time,
+          name: fields.name.trim(),
+          email: fields.email.trim(),
+          phone: fields.phone.trim(),
+        }),
+      });
+
+      const data = (await response.json().catch(() => ({}))) as {
+        booking?: Booking;
+        error?: string;
+      };
+
+      if (!response.ok || !data.booking) {
+        setApiError(data.error ?? "La réservation n'a pas pu être enregistrée.");
+        submittedRef.current = false;
+        setSubmitting(false);
+        void onBooked();
+        return;
+      }
+
+      setConfirmed(data.booking);
+      setSubmitting(false);
+      void onBooked();
+      requestAnimationFrame(() => closeRef.current?.focus());
+    } catch {
+      setApiError("Connexion au serveur impossible. Vérifiez que le serveur tourne.");
+      submittedRef.current = false;
+      setSubmitting(false);
+    }
   };
 
   const dateLabel = `${slot.dateLong} · ${slot.time}`;
+  const confirmedDateLabel = confirmed ? `${confirmed.dateLong} · ${confirmed.time}` : dateLabel;
 
   useGSAP(
     () => {
-      if (!code || !successRef.current || prefersReducedMotion()) return;
+      if (!confirmed || !successRef.current || prefersReducedMotion()) return;
       const items = successRef.current.querySelectorAll("[data-success]");
       gsap.from(items, {
         y: 12,
@@ -185,7 +198,7 @@ export function BookingModal({ slot, onClose }: BookingModalProps) {
         ease: "back.out(1.8)",
       });
     },
-    { scope: successRef, dependencies: [code] },
+    { scope: successRef, dependencies: [confirmed] },
   );
 
   const content = (
@@ -208,7 +221,7 @@ export function BookingModal({ slot, onClose }: BookingModalProps) {
               id="booking-modal-title"
               className="text-2xl font-medium tracking-[-0.02em] text-forest sm:text-3xl"
             >
-              {code ? "Séance confirmée" : slot.name}
+              {confirmed ? "Séance confirmée" : slot.name}
             </h2>
           </div>
           <button
@@ -222,7 +235,7 @@ export function BookingModal({ slot, onClose }: BookingModalProps) {
           </button>
         </div>
 
-        {code ? (
+        {confirmed ? (
           <div ref={successRef} className="mt-8">
             <div data-success className="flex items-center gap-4 rounded-2xl bg-white p-5">
               <span
@@ -234,7 +247,7 @@ export function BookingModal({ slot, onClose }: BookingModalProps) {
               <div>
                 <p className="text-sm text-muted">Votre code de confirmation</p>
                 <p className="mt-0.5 text-xl font-medium tracking-[0.04em] text-forest tabular-nums">
-                  {code}
+                  {confirmed.code}
                 </p>
               </div>
             </div>
@@ -242,26 +255,26 @@ export function BookingModal({ slot, onClose }: BookingModalProps) {
             <dl data-success className="mt-6 space-y-3 text-sm">
               <div className="flex justify-between gap-6">
                 <dt className="text-muted">Séance</dt>
-                <dd className="text-right font-medium text-forest">{slot.name}</dd>
+                <dd className="text-right font-medium text-forest">{confirmed.course}</dd>
               </div>
               <div className="flex justify-between gap-6">
                 <dt className="text-muted">Créneau</dt>
-                <dd className="text-right font-medium text-forest">{dateLabel}</dd>
+                <dd className="text-right font-medium text-forest">{confirmedDateLabel}</dd>
               </div>
               <div className="flex justify-between gap-6">
                 <dt className="text-muted">Coach</dt>
-                <dd className="text-right font-medium text-forest">{slot.coach}</dd>
+                <dd className="text-right font-medium text-forest">{confirmed.coach}</dd>
               </div>
               <div className="flex justify-between gap-6">
                 <dt className="text-muted">Réglé</dt>
-                <dd className="text-right font-medium text-forest">{price}</dd>
+                <dd className="text-right font-medium text-forest">{confirmed.price} €</dd>
               </div>
             </dl>
 
             <p data-success className="mt-6 text-sm leading-relaxed text-muted">
               Présentez ce code à l&apos;accueil dix minutes avant la séance. La réservation est
-              enregistrée dans ce navigateur. Démonstration : aucun paiement réel n&apos;a été
-              effectué et aucun email n&apos;est envoyé.
+              enregistrée sur le serveur du studio. Démonstration : aucun paiement réel n&apos;a
+              été effectué et aucun email n&apos;est envoyé.
             </p>
 
             <Link
@@ -366,11 +379,21 @@ export function BookingModal({ slot, onClose }: BookingModalProps) {
                 </p>
               </fieldset>
 
+              {apiError ? (
+                <p
+                  role="alert"
+                  className="rounded-xl bg-[#f6e9e6] px-4 py-3 text-sm leading-relaxed text-[#8f3a2a]"
+                >
+                  {apiError}
+                </p>
+              ) : null}
+
               <button
                 type="submit"
-                className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-forest px-6 py-4 text-sm font-medium text-ecru transition-colors hover:bg-forest-soft"
+                disabled={submitting}
+                className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-forest px-6 py-4 text-sm font-medium text-ecru transition-colors hover:bg-forest-soft disabled:cursor-not-allowed disabled:opacity-70"
               >
-                Confirmer et régler ({price})
+                {submitting ? "Enregistrement…" : `Confirmer et régler (${price})`}
               </button>
             </form>
           </>

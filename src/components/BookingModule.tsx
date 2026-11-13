@@ -3,6 +3,7 @@
 import { useMemo, useRef, useState, useSyncExternalStore } from "react";
 import { ArrowRight } from "lucide-react";
 import { BookingModal } from "@/components/BookingModal";
+import { isActiveBooking } from "@/lib/bookings";
 import { gsap, useGSAP } from "@/lib/gsap";
 import { prefersReducedMotion } from "@/lib/motion";
 import { useBookings } from "@/lib/useBookings";
@@ -12,8 +13,8 @@ import {
   FORMATS,
   PRICE,
   SESSION_TEMPLATES,
-  bookedCount,
   buildDays,
+  demoBooked,
   type Day,
   type FormatKey,
   type Slot,
@@ -40,14 +41,14 @@ export function BookingModule() {
   const [filter, setFilter] = useState<"tous" | FormatKey>("tous");
   const [selected, setSelected] = useState<Slot | null>(null);
   const listRef = useRef<HTMLUListElement>(null);
-  const bookings = useBookings();
+  const { bookings, refresh } = useBookings();
 
   const day = days[dayIndex];
 
   const slots = useMemo(() => {
     if (!day || day.closed) return [];
     const perSlot = new Map<string, number>();
-    bookings.forEach((booking) => {
+    bookings.filter(isActiveBooking).forEach((booking) => {
       perSlot.set(booking.slotId, (perSlot.get(booking.slotId) ?? 0) + 1);
     });
     return SESSION_TEMPLATES.map((session, index) => {
@@ -55,7 +56,7 @@ export function BookingModule() {
       const key = `${day.iso}-${index}`;
       const booked = Math.min(
         CAPACITY,
-        bookedCount(dayIndex, index) + (perSlot.get(key) ?? 0),
+        demoBooked(day.iso, index) + (perSlot.get(key) ?? 0),
       );
       return {
         id: key,
@@ -69,7 +70,7 @@ export function BookingModule() {
         remaining: CAPACITY - booked,
       } satisfies Slot;
     });
-  }, [day, dayIndex, bookings]);
+  }, [day, bookings]);
 
   const visible = filter === "tous" ? slots : slots.filter((slot) => slot.format === filter);
   const monthLabel = days[0]
@@ -261,7 +262,11 @@ export function BookingModule() {
       </p>
 
       {selected ? (
-        <BookingModal slot={selected} onClose={() => setSelected(null)} />
+        <BookingModal
+          slot={selected}
+          onClose={() => setSelected(null)}
+          onBooked={refresh}
+        />
       ) : null}
     </div>
   );

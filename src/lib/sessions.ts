@@ -101,8 +101,16 @@ export function buildDays(): Day[] {
   return days;
 }
 
-export function bookedCount(dayIndex: number, slotIndex: number): number {
-  return (dayIndex * 5 + slotIndex * 3) % (CAPACITY + 1);
+/**
+ * Demo occupancy baseline, derived from the date and the slot so a given
+ * session keeps the same baseline when the seven-day window moves.
+ */
+export function demoBooked(dateIso: string, slotIndex: number): number {
+  let hash = 7;
+  for (const char of `${dateIso}:${slotIndex}`) {
+    hash = (hash * 31 + char.charCodeAt(0)) % 997;
+  }
+  return hash % (CAPACITY + 1);
 }
 
 export type Slot = {
