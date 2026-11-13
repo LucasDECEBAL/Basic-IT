@@ -1,14 +1,17 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState, type FormEvent, type Ref } from "react";
-import { Check, Lock, X } from "lucide-react";
+import { ArrowRight, Check, Lock, X } from "lucide-react";
+import Link from "next/link";
 import { createPortal } from "react-dom";
+import { addBooking, makeBookingId } from "@/lib/bookings";
 import { PRICE, type Slot } from "@/lib/sessions";
+import { gsap, useGSAP } from "@/lib/gsap";
+import { prefersReducedMotion } from "@/lib/motion";
 
 type BookingModalProps = {
   slot: Slot;
   onClose: () => void;
-  onConfirmed: (slotId: string) => void;
 };
 
 type Fields = {
@@ -51,13 +54,15 @@ function makeCode() {
   return `BIT-2027-${suffix}`;
 }
 
-export function BookingModal({ slot, onClose, onConfirmed }: BookingModalProps) {
+export function BookingModal({ slot, onClose }: BookingModalProps) {
   const [fields, setFields] = useState<Fields>(EMPTY_FIELDS);
   const [errors, setErrors] = useState<Partial<Record<keyof Fields, string>>>({});
   const [code, setCode] = useState<string | null>(null);
   const panelRef = useRef<HTMLDivElement>(null);
   const closeRef = useRef<HTMLButtonElement>(null);
   const firstFieldRef = useRef<HTMLInputElement>(null);
+  const successRef = useRef<HTMLDivElement>(null);
+  const submittedRef = useRef(false);
   const onCloseRef = useRef(onClose);
 
   const price = useMemo(() => `${PRICE} €`, []);
@@ -136,13 +141,52 @@ export function BookingModal({ slot, onClose, onConfirmed }: BookingModalProps) 
       firstError?.focus();
       return;
     }
+    if (submittedRef.current) return;
+    submittedRef.current = true;
     const generated = makeCode();
+    addBooking({
+      id: makeBookingId(),
+      code: generated,
+      slotId: slot.id,
+      dateIso: slot.dateIso,
+      dateLong: slot.dateLong,
+      time: slot.time,
+      format: slot.format,
+      course: slot.name,
+      coach: slot.coach,
+      duration: slot.duration,
+      price: PRICE,
+      name: fields.name.trim(),
+      email: fields.email.trim(),
+      phone: fields.phone.trim(),
+      createdAt: new Date().toISOString(),
+    });
     setCode(generated);
-    onConfirmed(slot.id);
     requestAnimationFrame(() => closeRef.current?.focus());
   };
 
   const dateLabel = `${slot.dateLong} · ${slot.time}`;
+
+  useGSAP(
+    () => {
+      if (!code || !successRef.current || prefersReducedMotion()) return;
+      const items = successRef.current.querySelectorAll("[data-success]");
+      gsap.from(items, {
+        y: 12,
+        autoAlpha: 0,
+        duration: 0.45,
+        stagger: 0.06,
+        ease: "power3.out",
+      });
+      gsap.from("[data-success-badge]", {
+        scale: 0.55,
+        autoAlpha: 0,
+        duration: 0.55,
+        ease: "back.out(1.8)",
+      });
+    },
+    { scope: successRef, dependencies: [code] },
+  );
 
   const content = (
     <div
@@ -179,9 +223,12 @@ export function BookingModal({ slot, onClose, onConfirmed }: BookingModalProps) 
         </div>
 
         {code ? (
-          <div className="mt-8">
-            <div className="flex items-center gap-4 rounded-2xl bg-white p-5">
-              <span className="inline-flex size-12 shrink-0 items-center justify-center rounded-full bg-forest text-ecru">
+          <div ref={successRef} className="mt-8">
+            <div data-success className="flex items-center gap-4 rounded-2xl bg-white p-5">
+              <span
+                data-success-badge
+                className="inline-flex size-12 shrink-0 items-center justify-center rounded-full bg-forest text-ecru"
+              >
                 <Check size={22} strokeWidth={2.5} />
               </span>
               <div>
@@ -192,7 +239,7 @@ export function BookingModal({ slot, onClose, onConfirmed }: BookingModalProps) 
               </div>
             </div>
 
-            <dl className="mt-6 space-y-3 text-sm">
+            <dl data-success className="mt-6 space-y-3 text-sm">
               <div className="flex justify-between gap-6">
                 <dt className="text-muted">Séance</dt>
                 <dd className="text-right font-medium text-forest">{slot.name}</dd>
@@ -211,10 +258,20 @@ export function BookingModal({ slot, onClose, onConfirmed }: BookingModalProps) 
               </div>
             </dl>
 
-            <p className="mt-6 text-sm leading-relaxed text-muted">
-              Présentez ce code à l&apos;accueil dix minutes avant la séance. Démonstration : aucun
-              paiement réel n&apos;a été effectué et aucun email n&apos;est envoyé.
+            <p data-success className="mt-6 text-sm leading-relaxed text-muted">
+              Présentez ce code à l&apos;accueil dix minutes avant la séance. La réservation est
+              enregistrée dans ce navigateur. Démonstration : aucun paiement réel n&apos;a été
+              effectué et aucun email n&apos;est envoyé.
             </p>
+
+            <Link
+              data-success
+              href="/admin"
+              className="mt-5 inline-flex items-center gap-1.5 text-sm font-medium text-forest underline-offset-4 hover:underline"
+            >
+              Voir dans l&apos;espace admin
+              <ArrowRight size={15} aria-hidden="true" />
+            </Link>
 
             <button
               type="button"

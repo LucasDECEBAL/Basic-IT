@@ -1,8 +1,11 @@
 "use client";
 
-import { useMemo, useState, useSyncExternalStore } from "react";
+import { useMemo, useRef, useState, useSyncExternalStore } from "react";
 import { ArrowRight } from "lucide-react";
 import { BookingModal } from "@/components/BookingModal";
+import { gsap, useGSAP } from "@/lib/gsap";
+import { prefersReducedMotion } from "@/lib/motion";
+import { useBookings } from "@/lib/useBookings";
 import {
   CAPACITY,
   FILTERS,
@@ -35,17 +38,25 @@ export function BookingModule() {
   const days = useSyncExternalStore(subscribeToNothing, getDaysSnapshot, () => EMPTY_DAYS);
   const [dayIndex, setDayIndex] = useState(0);
   const [filter, setFilter] = useState<"tous" | FormatKey>("tous");
-  const [extra, setExtra] = useState<Record<string, number>>({});
   const [selected, setSelected] = useState<Slot | null>(null);
+  const listRef = useRef<HTMLUListElement>(null);
+  const bookings = useBookings();
 
   const day = days[dayIndex];
 
   const slots = useMemo(() => {
     if (!day || day.closed) return [];
+    const perSlot = new Map<string, number>();
+    bookings.forEach((booking) => {
+      perSlot.set(booking.slotId, (perSlot.get(booking.slotId) ?? 0) + 1);
+    });
     return SESSION_TEMPLATES.map((session, index) => {
       const format = FORMATS[session.format];
       const key = `${day.iso}-${index}`;
-      const booked = Math.min(CAPACITY, bookedCount(dayIndex, index) + (extra[key] ?? 0));
+      const booked = Math.min(
+        CAPACITY,
+        bookedCount(dayIndex, index) + (perSlot.get(key) ?? 0),
+      );
       return {
         id: key,
         dateIso: day.iso,
@@ -58,12 +69,26 @@ export function BookingModule() {
         remaining: CAPACITY - booked,
       } satisfies Slot;
     });
-  }, [day, dayIndex, extra]);
+  }, [day, dayIndex, bookings]);
 
   const visible = filter === "tous" ? slots : slots.filter((slot) => slot.format === filter);
   const monthLabel = days[0]
     ? `${days[0].month.charAt(0).toUpperCase()}${days[0].month.slice(1)}`
     : "";
+
+  useGSAP(
+    () => {
+      if (!listRef.current || prefersReducedMotion()) return;
+      gsap.from(listRef.current.querySelectorAll("li"), {
+        y: 12,
+        autoAlpha: 0,
+        duration: 0.4,
+        stagger: 0.045,
+        ease: "power2.out",
+      });
+    },
+    { scope: listRef, dependencies: [dayIndex, filter, days.length] },
+  );
 
   return (
     <div className="rounded-[1.75rem] bg-white p-4 sm:p-6 lg:p-8">
@@ -163,7 +188,7 @@ export function BookingModule() {
             </p>
           </div>
         ) : (
-          <ul className="space-y-2">
+          <ul ref={listRef} className="space-y-2">
             {visible.map((slot) => {
               const full = slot.remaining === 0;
               const placesLabel = full
@@ -236,13 +261,7 @@ export function BookingModule() {
       </p>
 
       {selected ? (
-        <BookingModal
-          slot={selected}
-          onClose={() => setSelected(null)}
-          onConfirmed={(slotId) => {
-            setExtra((current) => ({ ...current, [slotId]: (current[slotId] ?? 0) + 1 }));
-          }}
-        />
+        <BookingModal slot={selected} onClose={() => setSelected(null)} />
       ) : null}
     </div>
   );

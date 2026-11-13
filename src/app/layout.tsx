@@ -35,15 +35,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="fr" className={archivo.variable} suppressHydrationWarning>
+    <html lang="fr" className={archivo.variable}>
       <body className="font-sans">
-        <script
-          // Enables the entrance transitions before the first paint, while
-          // leaving every block visible when JavaScript is unavailable.
-          dangerouslySetInnerHTML={{
-            __html: "document.documentElement.classList.add('reveal-ready')",
-          }}
-        />
         <a
           href="#contenu"
           className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[60] focus:rounded-full focus:bg-forest focus:px-5 focus:py-3 focus:text-sm focus:text-ecru"

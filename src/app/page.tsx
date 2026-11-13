@@ -1,6 +1,8 @@
 import Image from "next/image";
+import Link from "next/link";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { BookingModule } from "@/components/BookingModule";
+import { HeroMotion } from "@/components/HeroMotion";
 import { Reveal } from "@/components/Reveal";
 import { SiteHeader } from "@/components/SiteHeader";
 import { FORMATS } from "@/lib/sessions";
@@ -73,20 +75,23 @@ export default function Home() {
       <main id="contenu">
         {/* Hero */}
         <section className="mx-auto w-full max-w-[1240px] px-6 pb-20 pt-10 md:px-10 lg:pb-28 lg:pt-16">
-          <div className="grid items-start gap-12 lg:grid-cols-12 lg:gap-8">
+          <HeroMotion className="grid items-start gap-12 lg:grid-cols-12 lg:gap-8">
             <div className="lg:col-span-7 lg:pr-10">
-              <h1 className="text-[clamp(2.6rem,9vw,5.25rem)] font-medium leading-[0.92] tracking-[-0.045em] text-forest">
+              <h1
+                data-hero-title
+                className="text-[clamp(2.6rem,9vw,5.25rem)] font-medium leading-[0.92] tracking-[-0.045em] text-forest"
+              >
                 Moins de bruit,
                 <br />
                 plus d&apos;impact.
               </h1>
 
-              <p className="mt-7 max-w-[34rem] text-lg leading-relaxed text-ink sm:text-xl">
+              <p data-hero-copy className="mt-7 max-w-[34rem] text-lg leading-relaxed text-ink sm:text-xl">
                 Basic IT est un studio de coaching au cœur du 11e. Des séances de cinquante
                 minutes, en groupe de huit, avec un coach qui vous regarde vraiment.
               </p>
 
-              <div className="mt-9 flex flex-wrap items-center gap-x-7 gap-y-4">
+              <div data-hero-actions className="mt-9 flex flex-wrap items-center gap-x-7 gap-y-4">
                 <a
                   href="#reserver"
                   className="inline-flex items-center gap-2 rounded-full bg-forest px-6 py-3.5 text-sm font-medium text-ecru transition-colors hover:bg-forest-soft"
@@ -107,31 +112,35 @@ export default function Home() {
                 </a>
               </div>
 
-              <p className="mt-7 flex items-start gap-2.5 text-sm leading-relaxed text-sage-ink">
+              <p data-hero-note className="mt-7 flex items-start gap-2.5 text-sm leading-relaxed text-sage-ink">
                 <span className="mt-1.5 size-1.5 shrink-0 rounded-full bg-sage" aria-hidden="true" />
                 Sessions limitées à 8 participants pour un suivi sur-mesure.
               </p>
             </div>
 
-            <Reveal className="relative lg:col-span-5" delay={120}>
+            <div data-hero-media className="relative lg:col-span-5">
               <div className="relative aspect-[4/5] overflow-hidden rounded-2xl bg-bone md:aspect-[16/10] lg:aspect-[4/5]">
                 <Image
+                  data-hero-image
                   src="/photos/studio.jpg"
                   alt="Deux membres du studio Basic IT assises dans la salle d'entraînement"
                   fill
                   priority
                   sizes="(min-width: 1024px) 40vw, 100vw"
-                  className="drift object-cover"
+                  className="object-cover"
                 />
               </div>
-              <div className="absolute bottom-4 left-4 right-4 rounded-xl bg-ecru p-4 sm:left-5 sm:bottom-5 sm:right-auto sm:max-w-[15rem]">
+              <div
+                data-hero-caption
+                className="absolute bottom-4 left-4 right-4 rounded-xl bg-ecru p-4 sm:left-5 sm:bottom-5 sm:right-auto sm:max-w-[15rem]"
+              >
                 <p className="text-[13px] text-sage-ink">Le studio</p>
                 <p className="mt-1 text-sm font-medium leading-snug text-forest">
                   18 rue de la Folie-Méricourt, Paris 11e
                 </p>
               </div>
-            </Reveal>
-          </div>
+            </div>
+          </HeroMotion>
         </section>
 
         {/* Concept */}
@@ -474,7 +483,15 @@ export default function Home() {
           </p>
 
           <div className="flex flex-col gap-3 pb-8 pt-6 text-[13px] leading-relaxed text-sage-soft md:flex-row md:items-center md:justify-between">
-            <p>© 2026 Basic IT. Tous droits réservés.</p>
+            <p className="flex flex-wrap items-center gap-x-4 gap-y-1">
+              <span>© 2026 Basic IT. Tous droits réservés.</span>
+              <Link
+                href="/admin"
+                className="underline underline-offset-4 hover:text-ecru"
+              >
+                Espace admin (démo)
+              </Link>
+            </p>
             <p>
               Démonstration : paiement simulé, aucune transaction réelle. Photographies :{" "}
               <a
