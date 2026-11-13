@@ -1,0 +1,353 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Basic IT — Soutenance de projet</title>
+  <meta name="description" content="Soutenance du projet site web de Basic IT — 15 minutes.">
+  <link rel="stylesheet" href="reveal/dist/reveal.css">
+  <link rel="stylesheet" href="reveal/dist/theme/black.css" id="theme">
+  <link rel="stylesheet" href="deck.css">
+</head>
+<body>
+
+<div class="brand">Basic <b>IT</b></div>
+<div class="timer" id="timer">00:00</div>
+
+<div class="reveal">
+  <div class="slides">
+
+    <!-- 1 -->
+    <section class="cover">
+      <p class="eyebrow">Soutenance de projet informatique · 15 minutes</p>
+      <h1>Basic <span>IT</span></h1>
+      <p class="lead">Le site web de notre salle</p>
+      <p class="meta">4 janvier → 26 mars 2027 · 20 000 € · 4 personnes · 20 salariés</p>
+      <aside class="notes">
+        On se présente en 15 secondes : prénom, rôle. Puis on enchaîne directement sur le pitch.
+        Ne pas lire la slide : regarder le jury.
+      </aside>
+    </section>
+
+    <!-- 2 -->
+    <section>
+      <p class="eyebrow">Le projet en une phrase</p>
+      <blockquote class="pitch">
+        « Pour les sportifs qui ne pouvaient réserver qu'au téléphone,
+        Basic IT est le site de réservation en ligne qui capte
+        <b>50 clients par semaine</b>, contrairement au standard saturé. »
+      </blockquote>
+      <aside class="notes">
+        C'est la phrase à faire valider par la formatrice. La dire lentement, marquer une pause après
+        « 50 clients par semaine ». Elle contient : la cible, le problème, la solution, le bénéfice chiffré.
+      </aside>
+    </section>
+
+    <!-- 3 -->
+    <section>
+      <p class="eyebrow">Le problème</p>
+      <h2>Nous n'avons aucun site web.</h2>
+      <div class="grid-4" style="margin-top:.6em">
+        <div class="stat">
+          <b class="is-danger">50</b>
+          <span>clients perdus chaque semaine</span>
+        </div>
+        <div class="stat">
+          <b class="is-danger">20</b>
+          <span>appels manqués par jour à l'accueil</span>
+        </div>
+        <div class="stat">
+          <b class="is-danger">0</b>
+          <span>réservation possible en ligne</span>
+        </div>
+        <div class="stat">
+          <b class="is-danger">2 400</b>
+          <span>clients perdus par an</span>
+        </div>
+      </div>
+      <aside class="notes">
+        Contexte : Basic IT, salle de sport et coaching, 20 salariés.
+        Tout passe par le téléphone ou l'accueil. Le client qui cherche une salle le soir
+        ne peut rien faire : il appelle, personne ne répond, il va chez le concurrent.
+      </aside>
+    </section>
+
+    <!-- 4 -->
+    <section>
+      <p class="eyebrow">Le coût du problème</p>
+      <div class="grid-2" style="align-items:center">
+        <div>
+          <p class="hero-number">52 000 €</p>
+          <p class="hero-caption">de chiffre d'affaires manqué chaque année</p>
+        </div>
+        <div>
+          <ul class="tight">
+            <li><strong>50 clients</strong> × 20 € de panier moyen = 1 000 € par semaine</li>
+            <li>Soit l'équivalent du budget du projet <strong>tous les 5 mois</strong></li>
+            <li>Budget du site : <strong>20 000 €</strong> — amorti en moins de 5 mois</li>
+          </ul>
+        </div>
+      </div>
+      <aside class="notes">
+        Chiffre à défendre : c'est une estimation issue du relevé de l'accueil, à confirmer en semaine 1
+        par les entretiens clients. L'idée à faire passer : 20 000 €, ce n'est pas une dépense,
+        c'est moins de 5 mois de pertes.
+      </aside>
+    </section>
+
+    <!-- 5 -->
+    <section>
+      <p class="eyebrow">La solution</p>
+      <h2>Un site web, pas une application.</h2>
+      <div class="grid-3" style="margin-top:.5em">
+        <div class="card">
+          <span class="num">01</span>
+          <h3>Site vitrine</h3>
+          <p>Offres, planning des cours, coachs, contact. Nos clients nous trouvent enfin en ligne.</p>
+        </div>
+        <div class="card">
+          <span class="num">02</span>
+          <h3>Réservation 24h/24</h3>
+          <p>Choix du créneau, confirmation immédiate, annulation jusqu'à 24 h avant.</p>
+        </div>
+        <div class="card">
+          <span class="num">03</span>
+          <h3>Paiement et back-office</h3>
+          <p>Paiement sécurisé par Stripe, planning géré par les 20 salariés.</p>
+        </div>
+      </div>
+      <aside class="notes">
+        Insister sur le choix : un site responsive, pas d'app. Argument : pas de store, pas de double
+        maintenance, un seul code, accessible depuis n'importe quel téléphone en un clic.
+      </aside>
+    </section>
+
+    <!-- 6 -->
+    <section>
+      <p class="eyebrow">Parcours client</p>
+      <h2>Réserver en 40 secondes.</h2>
+      <div class="steps">
+        <div class="step">
+          <b>1. Je choisis</b>
+          <p>Date, cours, coach. Les créneaux complets sont grisés.</p>
+        </div>
+        <div class="step">
+          <b>2. Je m'identifie</b>
+          <p>Email et nom. Pas de compte obligatoire pour une séance.</p>
+        </div>
+        <div class="step">
+          <b>3. Je paie</b>
+          <p>Carte bancaire via Stripe, sur une page sécurisée.</p>
+        </div>
+        <div class="step">
+          <b>4. Je reçois</b>
+          <p>Confirmation à l'écran, email immédiat, rappel la veille.</p>
+        </div>
+      </div>
+      <aside class="notes">
+        C'est le cœur du projet : trois clics, aucun appel. Le rappel J-1 sert à réduire le no-show,
+        c'est notre KPI caché.
+      </aside>
+    </section>
+
+    <!-- 7 -->
+    <section>
+      <p class="eyebrow">Démonstration</p>
+      <h2>Le site, en direct.</h2>
+      <ul class="tight" style="margin-top:.4em">
+        <li>Accueil et planning → je choisis un cours</li>
+        <li>Réservation → je confirme un créneau</li>
+        <li>Back-office → le créneau passe de 11 à 10 places</li>
+      </ul>
+      <p class="meta">Si le direct échoue : maquette cliquable + captures dans l'annexe.</p>
+      <aside class="notes">
+        Préparer un onglet ouvert d'avance, créneau de test réservé, capture d'écran en secours.
+        Parler pendant la démo : « je viens de réserver en 40 secondes, sans appeler ».
+      </aside>
+    </section>
+
+    <!-- 8 -->
+    <section>
+      <p class="eyebrow">Côté salle</p>
+      <h2>Un back-office que les 20 salariés utilisent vraiment.</h2>
+      <div class="grid-2" style="margin-top:.5em">
+        <div class="card">
+          <h3>Moins de 60 secondes</h3>
+          <p>Créer un créneau, modifier un horaire, annuler un cours. Une fiche d'une page suffit.</p>
+        </div>
+        <div class="card">
+          <h3>Deux profils</h3>
+          <p>2 administrateurs, 18 salariés. Chacun voit le planning, seuls les admins modifient les tarifs.</p>
+        </div>
+        <div class="card">
+          <h3>Emails automatiques</h3>
+          <p>Confirmation, rappel J-1, annulation de cours : plus personne n'oublie de prévenir.</p>
+        </div>
+        <div class="card">
+          <h3>Export CSV</h3>
+          <p>La liste des réservations de la semaine, pour la caisse et la comptabilité.</p>
+        </div>
+      </div>
+      <aside class="notes">
+        Anticiper la question « et si les salariés continuent le cahier papier ? » :
+        formation en semaine 11, deux référents, et un rapport hebdomadaire envoyé à la direction.
+      </aside>
+    </section>
+
+    <!-- 9 -->
+    <section>
+      <p class="eyebrow">Budget</p>
+      <h2>20 000 €, marge incluse.</h2>
+      <table>
+        <thead>
+          <tr><th>Poste</th><th class="num">Montant</th><th class="num">%</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Développement interne — 30 jours-homme</td><td class="num">9 000 €</td><td class="num">45 %</td></tr>
+          <tr><td>Design UX/UI <em>(prestataire)</em></td><td class="num">2 500 €</td><td class="num">12,5 %</td></tr>
+          <tr><td>Communication et lancement</td><td class="num">2 500 €</td><td class="num">12,5 %</td></tr>
+          <tr><td>Licence CMS et module de réservation</td><td class="num">1 200 €</td><td class="num">6 %</td></tr>
+          <tr><td>Maintenance, Stripe, formation, hébergement</td><td class="num">2 800 €</td><td class="num">14 %</td></tr>
+          <tr><td>Imprévus</td><td class="num">2 000 €</td><td class="num">10 %</td></tr>
+          <tr class="total"><td>Total</td><td class="num">20 000 €</td><td class="num">100 %</td></tr>
+        </tbody>
+      </table>
+      <aside class="notes">
+        Question probable : « 20 000 € pour un site avec paiement, c'est réaliste ? »
+        Réponse : l'équipe est interne, seuls 9 000 € sont du temps valorisé. Le reste est du
+        prestataire, de la licence et 10 % de marge.
+      </aside>
+    </section>
+
+    <!-- 10 -->
+    <section>
+      <p class="eyebrow">Planning</p>
+      <h2>12 semaines, 5 jalons.</h2>
+      <table>
+        <thead>
+          <tr><th>Phase</th><th>Semaines</th><th>Jalon</th><th class="num">Date</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Cadrage</td><td>S1</td><td class="tag">J1 Cadrage validé</td><td class="num">10 janv.</td></tr>
+          <tr><td>Conception</td><td>S2 – S3</td><td class="tag">J2 Maquettes validées</td><td class="num">24 janv.</td></tr>
+          <tr><td>Développement lot 1 — vitrine</td><td>S4 – S6</td><td class="tag">J3 Vitrine en préprod</td><td class="num">14 févr.</td></tr>
+          <tr><td>Développement lot 2 — réservation</td><td>S7 – S9</td><td class="tag">J4 Parcours complet</td><td class="num">7 mars</td></tr>
+          <tr><td>Recette et lancement</td><td>S10 – S11</td><td class="tag">Site en ligne</td><td class="num">21 mars</td></tr>
+          <tr class="total"><td>Clôture</td><td>S12</td><td>J5 Livraison finale</td><td class="num">26 mars</td></tr>
+        </tbody>
+      </table>
+      <aside class="notes">
+        La semaine 12 est une semaine tampon : aucune fonctionnalité n'y est acceptée.
+        C'est ce qui garantit la date, avec la marge de 10 % sur le budget.
+      </aside>
+    </section>
+
+    <!-- 11 -->
+    <section>
+      <p class="eyebrow">Risques</p>
+      <h2>Ce qui peut nous faire échouer.</h2>
+      <div class="grid-2" style="margin-top:.4em">
+        <div class="card">
+          <h3>Paiement non validé</h3>
+          <p>Compte Stripe ouvert en semaine 1. Repli prêt : paiement à l'accueil.</p>
+        </div>
+        <div class="card">
+          <h3>Dérive du périmètre</h3>
+          <p>MVP figé en semaine 3. Tout le reste part en phase 2, sans négociation.</p>
+        </div>
+        <div class="card">
+          <h3>Les salariés gardent le papier</h3>
+          <p>Formation en semaine 11, deux référents internes, fiche d'une page.</p>
+        </div>
+        <div class="card">
+          <h3>Données personnelles</h3>
+          <p>HTTPS, aucune carte stockée chez nous, sauvegardes quotidiennes, RGPD.</p>
+        </div>
+      </div>
+      <aside class="notes">
+        Ne pas lire les quatre cartes. En choisir deux : le périmètre et le RGPD.
+        Le message : nous avons anticipé les échecs, ce n'est pas un projet « on verra bien ».
+      </aside>
+    </section>
+
+    <!-- 12 -->
+    <section>
+      <p class="eyebrow">Résultats attendus — 3 mois après la mise en ligne</p>
+      <div class="grid-3" style="margin-top:.5em">
+        <div class="stat">
+          <b>30</b>
+          <span>clients récupérés chaque semaine, sur les 50 perdus</span>
+        </div>
+        <div class="stat">
+          <b>80</b>
+          <span>réservations en ligne par semaine au bout de 2 mois</span>
+        </div>
+        <div class="stat">
+          <b>−50 %</b>
+          <span>d'appels manqués à l'accueil</span>
+        </div>
+      </div>
+      <p class="lead" style="margin-top:.8em">Et un taux de no-show ramené sous les 10 % grâce au rappel de la veille.</p>
+      <aside class="notes">
+        Les KPI sont mesurés dans le back-office et dans l'analytics, pas au ressenti.
+        Bilan à J+30 et J+90, présenté à la direction.
+      </aside>
+    </section>
+
+    <!-- 13 -->
+    <section class="fin">
+      <p class="eyebrow">Conclusion</p>
+      <h2>Ce site n'est pas une dépense :<br>c'est <span style="color:var(--volt)">30 clients par semaine</span>.</h2>
+      <p class="lead">Merci — nous répondons à vos questions.</p>
+      <aside class="notes">
+        Terminer par la date et le budget : « 20 000 €, 12 semaines, livré le 26 mars. »
+        Puis se taire et laisser le jury poser ses questions.
+      </aside>
+    </section>
+
+  </div>
+</div>
+
+<script src="reveal/dist/reveal.js"></script>
+<script src="reveal/plugin/notes/notes.js"></script>
+<script>
+  Reveal.initialize({
+    hash: true,
+    history: true,
+    slideNumber: 'c/t',
+    transition: 'fade',
+    transitionSpeed: 'fast',
+    backgroundTransition: 'none',
+    progress: true,
+    controls: true,
+    center: true,
+    width: 1280,
+    height: 720,
+    margin: 0.055,
+    plugins: [RevealNotes]
+  });
+
+  // Chronomètre de répétition : démarre au chargement, "R" pour remettre à zéro.
+  (function () {
+    var el = document.getElementById('timer');
+    var start = Date.now();
+    var LIMIT = 15 * 60;
+
+    function pad(n) { return n < 10 ? '0' + n : String(n); }
+
+    setInterval(function () {
+      var s = Math.floor((Date.now() - start) / 1000);
+      el.textContent = pad(Math.floor(s / 60)) + ':' + pad(s % 60);
+      el.style.color = s > LIMIT ? 'rgba(255,92,56,.9)' : 'rgba(139,150,168,.65)';
+    }, 1000);
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'r' || e.key === 'R') {
+        if (e.target && /INPUT|TEXTAREA/.test(e.target.tagName)) return;
+        start = Date.now();
+      }
+    });
+  })();
+</script>
+</body>
+</html>
