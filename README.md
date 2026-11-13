@@ -59,22 +59,13 @@ Créer le site web de Basic IT : vitrine, réservation en ligne, paiement et bac
 
 | Tâche | Chef de projet | Designer | Dev front | Dev back | Direction |
 |---|:---:|:---:|:---:|:---:|:---:|
-| Cadrage et note de cadrage | **A/R** | C | I | I | C |
-| Budget et planning | **A/R** | I | I | I | C |
+| Cadrage, budget et planning | **A/R** | C | I | I | C |
 | Maquettes et charte graphique | A | **R** | C | C | I |
-| Choix techniques (CMS, Stripe) | A | C | C | **R** | I |
-| Intégration du site vitrine | A | C | **R** | C | I |
-| Tunnel de réservation et espace client | A | C | **R** | C | I |
-| Paiement Stripe et emails automatiques | A | I | C | **R** | I |
-| Back-office et base de données | A | I | C | **R** | I |
-| Sécurité et conformité RGPD | A | C | C | **R** | C |
-| Recette et tests utilisateurs | **A** | **R** | C | C | I |
-| Mise en production | A | I | C | **R** | I |
-| Formation des 20 salariés | **A/R** | C | I | C | I |
-| Communication et lancement | **A/R** | **R** | I | I | C |
-| Soutenance (15 min) | **A** | R | R | R | I |
+| Développement du site (vitrine, réservation, paiement) | A | C | **R** | **R** | I |
+| Recette et tests utilisateurs | **A/R** | R | C | C | I |
+| Mise en production et lancement | **A/R** | R | C | C | I |
 
-> `A/R` signifie que la même personne approuve et réalise la tâche.
+> `A/R` signifie que la même personne approuve et réalise la tâche. Deux `R` sur une ligne indiquent un travail partagé entre deux personnes.
 
 ## Structure du dépôt
 
