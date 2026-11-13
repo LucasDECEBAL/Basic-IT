@@ -18,3 +18,6 @@ main:focus{outline:none}
 .live-dot{background:var(--sage)}
 .steps .current span,.confirmation-mark,.login-art{color:var(--white)}
 .badge.warning{color:oklch(36% .04 80);background:oklch(92% .025 85)}
+/* Transitions de navigation et menu mobile deroulant. */
+@media(max-width:650px){.site-header nav{display:grid;grid-template-rows:0fr;visibility:hidden;opacity:0;padding:0 20px;border:0;transform:translateY(-6px);transition:grid-template-rows .24s ease-out,opacity .18s ease-out,transform .24s ease-out,visibility .24s}.site-header nav.open{display:grid;grid-template-rows:1fr;visibility:visible;opacity:1;transform:translateY(0);padding:12px 20px 20px;border-bottom:1px solid var(--line)}.site-header nav .nav-links{overflow:hidden;display:flex;flex-direction:column;gap:5px}.site-header nav a{font-size:16px;min-height:45px}}
+@media(prefers-reduced-motion:reduce){.site-header nav{transition:none!important}}
