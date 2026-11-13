@@ -22,8 +22,8 @@ bun dev
 
 Le script `bun run dev` démarre deux processus :
 
-- Next sur le premier port libre à partir de 3000, ou `PORT=4000 bun run dev` pour
-  choisir le point de départ ;
+- Next sur un port disponible choisi automatiquement, ou `PORT=4000 bun run dev`
+  pour en imposer un ;
 - `stripe listen` vers `http://localhost:<port>/api/stripe/webhook`, sur le même
   port. Le secret `whsec_...` affiché par la CLI est injecté directement dans
   l'environnement de Next, sans avoir à le recopier pour le développement.
@@ -36,6 +36,7 @@ Si la Stripe CLI est absente ou n'est pas connectée, Next démarre quand même.
 Pour lancer uniquement le serveur : `STRIPE_LISTEN=0 bun run dev`.
 
 Le site est disponible sur `http://localhost:<port>` et `https://basic-it.localhost`.
+Le port brut est affiché au démarrage et n'est pas fixé à 3000.
 
 Production :
 
@@ -59,7 +60,7 @@ bunx tsc --noEmit
 3. Un clic sur un créneau ouvre une modale : coordonnées, carte bancaire simulée,
    puis confirmation avec un code du type `BIT-2027-X89`.
 4. La réservation est enregistrée par le serveur et apparaît dans l'espace admin
-   sur [`/admin`](http://localhost:3000/admin).
+   sur [`/admin`](https://basic-it.localhost/admin).
 5. Les autres appareils connectés au même serveur voient la réservation et les
    places mises à jour au plus tard au bout de dix secondes, ou immédiatement au
    retour sur l'onglet.

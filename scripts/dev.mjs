@@ -5,8 +5,6 @@ import net from "node:net";
 const require = createRequire(import.meta.url);
 const nextBin = require.resolve("next/dist/bin/next");
 
-const requestedPort = Number.parseInt(process.env.PORT ?? "3000", 10);
-const startPort = Number.isFinite(requestedPort) ? requestedPort : 3000;
 const stripeEnabled = process.env.STRIPE_LISTEN !== "0";
 const stripeEvents = [
   "checkout.session.completed",
@@ -30,14 +28,34 @@ function isPortFree(port) {
   });
 }
 
-async function pickPort(start) {
-  for (let port = start; port < start + 20; port += 1) {
-    if (await isPortFree(port)) return port;
-  }
-  throw new Error(`Aucun port libre entre ${start} et ${start + 19}.`);
+function getFreePort() {
+  return new Promise((resolve, reject) => {
+    const server = net.createServer();
+    server.unref();
+    server.once("error", reject);
+    server.listen({ port: 0, host: "127.0.0.1" }, () => {
+      const address = server.address();
+      if (!address || typeof address === "string") {
+        server.close(() => reject(new Error("Port introuvable.")));
+        return;
+      }
+      server.close(() => resolve(address.port));
+    });
+  });
 }
 
-const port = await pickPort(startPort);
+async function pickPort() {
+  const requested = Number.parseInt(process.env.PORT ?? "", 10);
+  if (Number.isFinite(requested)) {
+    for (let port = requested; port < requested + 20; port += 1) {
+      if (await isPortFree(port)) return port;
+    }
+    throw new Error(`Aucun port libre entre ${requested} et ${requested + 19}.`);
+  }
+  return getFreePort();
+}
+
+const port = await pickPort();
 
 const alias = spawnSync(
   "portless",
